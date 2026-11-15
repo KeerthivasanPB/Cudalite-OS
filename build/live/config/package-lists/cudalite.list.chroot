@@ -1,0 +1,13 @@
+linux-image-amd64
+systemd
+systemd-sysv
+sudo
+ca-certificates
+pciutils
+usbutils
+procps
+iproute2
+iputils-ping
+less
+nano
+openssh-client

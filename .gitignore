@@ -1,0 +1,15 @@
+# Ignore compiled binaries
+application/hello_cuda
+application/cudalite-benchmark
+
+# Ignore live-build generated chroot, caches, and ISOs (keep config/)
+build/live/binary*
+build/live/cache/
+build/live/chroot*
+build/live/*.iso
+build/live/*.packages
+build/live/*.files
+build/live/*.zsync
+build/live/live-image*
+build/live/.build/
+*.log
