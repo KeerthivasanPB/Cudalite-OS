@@ -75,8 +75,8 @@ else
 fi
 unmount_chroot
 ls chroot/boot/vmlinuz-* >/dev/null 2>&1 || { echo "no kernel in chroot"; exit 1; }
-ls chroot/lib/modules/*/updates/dkms/nvidia.ko* >/dev/null 2>&1 \
-    || { echo "FATAL: nvidia.ko missing from chroot"; exit 1; }
+ls chroot/lib/modules/*/updates/dkms/nvidia-current.ko* >/dev/null 2>&1 \
+    || { echo "FATAL: nvidia-current.ko missing from chroot"; exit 1; }
 
 step 4/7 "SquashFS root filesystem (xz)"
 sudo mkdir -p binary/live binary/boot/grub

@@ -44,19 +44,23 @@ systemctl enable systemd-modules-load.service 2>/dev/null || true
 # ---- 4. NVIDIA kernel module for every installed kernel -----------------------------
 # Fail the build loudly if the driver is missing: an image without it would boot fine
 # and silently have no GPU.
+# Debian names the module files nvidia-current*.ko; /etc/modprobe.d/nvidia.conf maps the
+# public names (nvidia, nvidia-uvm) onto them, so `modprobe nvidia` works but `modinfo nvidia`
+# does not. Check the real name.
+MOD=nvidia-current
 for kdir in /lib/modules/*; do
     kver="$(basename "$kdir")"
     log "kernel $kver: building NVIDIA module with DKMS"
-    if ! modinfo -k "$kver" nvidia >/dev/null 2>&1; then
+    if ! modinfo -k "$kver" "$MOD" >/dev/null 2>&1; then
         dkms autoinstall -k "$kver"
         depmod -a "$kver"
     fi
-    if ! modinfo -k "$kver" nvidia >/dev/null 2>&1; then
-        log "FATAL: nvidia.ko not found for $kver"
+    if ! modinfo -k "$kver" "$MOD" >/dev/null 2>&1; then
+        log "FATAL: $MOD.ko not found for $kver"
         dkms status || true
         exit 1
     fi
-    log "kernel $kver: $(modinfo -k "$kver" -F version nvidia) -> $(modinfo -k "$kver" -F filename nvidia)"
+    log "kernel $kver: $(modinfo -k "$kver" -F version "$MOD") -> $(modinfo -k "$kver" -F filename "$MOD")"
 done
 update-initramfs -u -k all
 
