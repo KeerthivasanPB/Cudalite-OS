@@ -24,6 +24,7 @@ log "service user: $(id cudalite)"
 if ! id -u cudauser >/dev/null 2>&1; then
     useradd -m -s /bin/bash -G sudo,video,render cudauser
 fi
+usermod -aG systemd-journal,adm cudauser   # lets `journalctl -u cudalite-benchmark` show the service log
 passwd -d cudauser >/dev/null            # console-only account; no sshd, inbound firewall closed
 mkdir -p /etc/sudoers.d
 echo "cudauser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-cudauser
@@ -40,6 +41,7 @@ EOT
 systemctl enable cudalite-benchmark.service
 systemctl enable nftables.service
 systemctl enable systemd-modules-load.service 2>/dev/null || true
+systemctl set-default multi-user.target     # no graphics stack in the image
 
 # ---- 4. NVIDIA kernel module for every installed kernel -----------------------------
 # Fail the build loudly if the driver is missing: an image without it would boot fine
@@ -62,6 +64,29 @@ for kdir in /lib/modules/*; do
     fi
     log "kernel $kver: $(modinfo -k "$kver" -F version "$MOD") -> $(modinfo -k "$kver" -F filename "$MOD")"
 done
+# ---- 4b. trim: drop the module-build toolchain and unused services -----------------
+# The NVIDIA module is built and installed above. The kernel headers and compiler (~200 MB
+# installed) were only needed to build it. dkms ships hooks for kernel install/remove but none
+# for header removal, so the installed .ko is untouched (re-checked below). dkms and
+# nvidia-kernel-dkms stay installed (dkms is a hard dependency of the latter).
+# cron/logrotate: nothing in this image is scheduled.
+TRIM="cron cron-daemon-common logrotate gcc gcc-14 gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu \
+      cpp cpp-14 cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu"
+TRIM="$TRIM $(dpkg-query -W -f='${binary:Package}\n' 'linux-headers-*' 'linux-kbuild-*' 2>/dev/null | tr '\n' ' ')"
+PURGE=""
+for p in $TRIM; do dpkg -s "$p" >/dev/null 2>&1 && PURGE="$PURGE $p"; done
+log "purging:$PURGE"
+# shellcheck disable=SC2086
+DEBIAN_FRONTEND=noninteractive apt-get purge -y $PURGE
+DEBIAN_FRONTEND=noninteractive apt-get autoremove --purge -y
+
+for need in dkms nvidia-kernel-dkms libcuda1 nvidia-smi nvidia-modprobe live-boot systemd; do
+    dpkg -s "$need" >/dev/null 2>&1 || { log "FATAL: trim removed required package $need"; exit 1; }
+done
+for kdir in /lib/modules/*; do
+    modinfo -k "$(basename "$kdir")" "$MOD" >/dev/null 2>&1 || { log "FATAL: trim removed the NVIDIA module"; exit 1; }
+done
+dpkg --audit
 update-initramfs -u -k all
 
 # ---- 5. housekeeping ----------------------------------------------------------------

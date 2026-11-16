@@ -3,6 +3,7 @@
 # Run on the booted image:   cudalite-report            (quick benchmark)
 #                            cudalite-report --full     (also run the full benchmark)
 # Output: printed and saved to ~/cudalite-validation-<time>.txt (copy it to a USB stick).
+export PATH="$PATH:/usr/sbin:/sbin"   # sysctl, modinfo, ... are not on a normal user's PATH
 OUT="${HOME}/cudalite-validation-$(date +%Y%m%dT%H%M%S).txt"
 FULL=0; [ "${1:-}" = "--full" ] && FULL=1
 
@@ -25,7 +26,7 @@ run "dpkg-query -W nvidia-kernel-dkms libcuda1 nvidia-smi firmware-nvidia-gsp"
 
 sec "3. Auto-start service"
 run "systemctl status cudalite-benchmark.service --no-pager"
-run "journalctl -u cudalite-benchmark.service -b --no-pager"
+run "sudo journalctl -u cudalite-benchmark.service -b --no-pager"
 run "systemctl show cudalite-benchmark.service -p ActiveEnterTimestampMonotonic -p Result -p ExecMainStatus"
 
 sec "4. CUDA smoke test and benchmark"
