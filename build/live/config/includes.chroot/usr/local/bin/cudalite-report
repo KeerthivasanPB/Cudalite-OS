@@ -48,7 +48,7 @@ run "df -h / /run/live/medium 2>/dev/null"
 run "du -sx --block-size=1M /usr /var /lib /etc /opt 2>/dev/null"
 
 sec "7. Hardening verification"
-run "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS / /run/live/rootfs/filesystem.squashfs"
+run "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS -t overlay,squashfs,iso9660"
 run "id cudalite"
 run "ss -tulpn"
 run "sudo nft list ruleset"

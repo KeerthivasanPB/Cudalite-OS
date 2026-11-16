@@ -47,6 +47,23 @@ tests it against its own kernel, so DKMS builds the module for the exact target 
     from `grub-mkrescue` is not shim-signed, so the image only boots with Secure Boot **disabled**. This is a
     documented controlled-test setup; Secure Boot support is not claimed.
 
+13. **Toolchain trimmed after the module is built.** gcc-14, cpp-14, kernel headers/kbuild (~200 MB
+    installed) are purged by the hook once DKMS has produced `nvidia-current.ko`; the hook asserts that
+    dkms, nvidia-kernel-dkms, libcuda1, nvidia-smi, live-boot and the module survive (dkms has no
+    header-removal hook, checked in the dkms package). Result of the first QEMU-tested build vs trimmed:
+    244 -> 214 packages, SquashFS 387 -> 323 MB, ISO 453 -> 389 MB.
+14. **Debian's module naming.** Debian ships `nvidia-current*.ko` and maps `nvidia`/`nvidia-uvm` onto them
+    through `/etc/modprobe.d/nvidia.conf` (alternatives). My first hook check used `modinfo nvidia` and
+    wrongly failed a good build.
+15. **Redundant module loading removed.** The PCI alias (udev), Debian's `modules-load.d/nvidia.conf`
+    (`nvidia-drm`) and the service's `nvidia-modprobe -u` already load the driver; the extra
+    `modules-load.d` file only produced repeated failed attempts on machines without the GPU (VM test:
+    `NVRM: No NVIDIA GPU found`, 7.7 s in `systemd-modules-load`).
+16. **Services removed:** `cron`, `logrotate` (nothing scheduled). Remaining network software is the DHCP
+    client from `ifupdown`/`dhcpcd-base`: `ss -tulpn` shows only a DHCPv6 *client* socket, no listeners.
+17. **Build-process bug worth documenting:** under `sudo`, `lb`'s `apt-get` inherits a pty as stdin, gets
+    SIGTTOU and hangs after the tzdata upgrade; the build script runs `lb` with stdin from `/dev/null`.
+
 ## Package inclusion / exclusion (Task 4)
 
 | Included | Why |

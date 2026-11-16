@@ -20,12 +20,13 @@ CHECKS = [
     "systemd-analyze blame --no-pager 2>&1 | head -8",
     "free -m; echo packages: $(dpkg-query -W -f='${binary:Package}\\n' | sort -u | wc -l)",
     "id cudalite; id cudauser",
+    "journalctl -u systemd-modules-load.service -b --no-pager 2>&1 | tail -12",
     "systemctl get-default; systemctl is-enabled cudalite-benchmark.service nftables.service; systemctl --failed --no-legend",
     "systemctl is-active nftables.service",
     "sudo nft list ruleset",
     "sudo ss -tulpn; echo '(only DHCP *client* sockets expected; no listening services)'",
-    "dpkg-query -W -f='${binary:Package}\\n' | grep -E '^(gcc|cpp|cron|logrotate|linux-headers)' || echo '(toolchain/cron removed)'; ls /lib/modules/*/updates/dkms/",
-    "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS / /run/live/medium /run/live/rootfs/filesystem.squashfs 2>&1",
+    "dpkg-query -W -f='${binary:Package}\\n' | grep -E '^(gcc-1[0-9]:|gcc$|cpp|cron|logrotate|linux-headers)' || echo '(toolchain/cron removed)'; ls /lib/modules/*/updates/dkms/",
+    "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS -t overlay,squashfs,iso9660 2>&1",
     "sysctl kernel.kptr_restrict kernel.dmesg_restrict kernel.yama.ptrace_scope kernel.unprivileged_bpf_disabled",
     "ls -l /usr/local/bin/",
     "systemd-analyze verify /etc/systemd/system/cudalite-benchmark.service 2>&1; echo verify-exit=$?",
@@ -37,7 +38,7 @@ CHECKS = [
     "systemctl status cudalite-benchmark.service --no-pager 2>&1 | head -14",
     "journalctl -u cudalite-benchmark.service -b --no-pager 2>&1 | tail -8",
     "/usr/local/bin/hello_cuda 2>&1; echo hello_cuda-exit=$?",
-    "sudo dmesg | grep -i -E 'nvidia|nouveau|firmware|amdgpu' | head -8; echo '(no GPU in this VM)'",
+    "sudo dmesg | grep -i -E 'NVRM|nvidia|nouveau|amdgpu' | head -16; echo '(no GPU in this VM)'",
 ]
 
 
@@ -86,14 +87,17 @@ def main():
         s.sendall(b"cudauser\n")
         out = read_until("$ ", 30)
         log.append(out)
-        s.sendall(b"export PS1='$ ' PATH=$PATH:/usr/sbin:/sbin; bind 'set enable-bracketed-paste off'; stty -echo; echo READY\n")
-        read_until("READY\r\n", 10)
+        s.sendall(b"export PS1='$ ' PATH=$PATH:/usr/sbin:/sbin SYSTEMD_PAGER=cat PAGER=cat SYSTEMD_COLORS=0 TERM=dumb; bind 'set enable-bracketed-paste off'; stty -echo; echo REA''DY\n")
+        read_until("READY", 10)
         header = f"=== QEMU boot test: {ISO}\n=== reached login prompt after {boot_s:.1f} s wall-clock (KVM, 4 vCPU)\n"
         results = [header]
         for i, c in enumerate(CHECKS):
             tag = f"__END{i}__"
-            s.sendall(f"{c}; echo {tag}\n".encode())   # one line: sudo flushes typed-ahead input
-            o = read_until(tag + "\r\n", 60)
+            # The typed marker contains a shell quote (__EN''D3__) so that only the command's real
+            # output contains the contiguous tag; sudo can re-enable tty echo, which would otherwise
+            # make the echoed command text match. One line per command: sudo flushes typed-ahead input.
+            s.sendall(f"{c}; echo __EN''D{i}__\n".encode())
+            o = read_until(tag, 60)
             o = o.split(tag)[0].replace("\r", "")
             results.append(f"\n$ {c}\n{o.strip()}\n")
         s.sendall(b"sudo poweroff\n")
