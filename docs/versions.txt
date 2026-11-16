@@ -1,16 +1,16 @@
-built (UTC) : 2026-11-16T14:41:56+00:00
+built (UTC) : 2026-11-16T15:19:35+00:00
 live-build  : 3.0~a57-1
 host        : Linux 7.0.0-42-generic x86_64 / Ubuntu 26.04.1 LTS
 host gcc    : g++-13 (Ubuntu 13.4.0-10ubuntu1) 13.4.0   host nvcc: Build cuda_12.4.r12.4/compiler.34097967_0
 debian      : 13.7
 kernel pkg  : linux-image-6.12.107+deb13-amd64 6.12.107-1
 pkg         : nvidia-kernel-dkms 550.163.01-2
-pkg         : 
+pkg         : libcuda1:amd64 550.163.01-2
 pkg         : nvidia-smi 550.163.01-2
 pkg         : firmware-nvidia-gsp 550.163.01-2
 pkg         : nvidia-modprobe 570.133.07-1
 pkg         : systemd 257.13-1~deb13u1
 pkg         : dkms 3.2.2-1~deb13u1
-pkg         : gcc-14 14.2.0-19
-pkg         : 
-source rev  : 2e2c2af 
+pkg         : live-boot 1:20250815~deb13u1
+pkg         : libc6:amd64 2.41-12+deb13u4
+source rev  : 54842b0 (clean build)

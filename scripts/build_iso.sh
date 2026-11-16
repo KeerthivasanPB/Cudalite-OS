@@ -121,7 +121,7 @@ dpkg-query --admindir="$BUILD_DIR/chroot/var/lib/dpkg" -W -f='${binary:Package}\
     echo "host gcc    : $(g++-13 --version | head -n1)   host nvcc: $(nvcc --version | tail -n1)"
     echo "debian      : $(cat chroot/etc/debian_version)"
     echo "kernel pkg  : $(grep -P '^linux-image-\d' "$ROOT/docs/package-manifest.tsv" | tr '\t' ' ')"
-    for p in nvidia-kernel-dkms libcuda1 nvidia-smi firmware-nvidia-gsp nvidia-modprobe systemd dkms gcc-14 libc6; do
+    for p in nvidia-kernel-dkms libcuda1 nvidia-smi firmware-nvidia-gsp nvidia-modprobe systemd dkms live-boot libc6; do
         echo "pkg         : $(grep -P "^$p(:amd64)?\t" "$ROOT/docs/package-manifest.tsv" | tr '\t' ' ')"
     done
     echo "source rev  : $(git -C "$ROOT" rev-parse --short HEAD) $(git -C "$ROOT" diff --quiet || echo '(+uncommitted changes)')"
