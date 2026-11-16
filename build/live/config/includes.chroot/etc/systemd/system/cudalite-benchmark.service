@@ -1,0 +1,55 @@
+[Unit]
+Description=CudaLite GPU benchmark (CPU vs GPU matrix multiplication)
+Documentation=file:///usr/share/doc/cudalite/README
+After=multi-user.target systemd-udevd.service systemd-modules-load.service
+Wants=systemd-modules-load.service
+ConditionPathExists=/usr/local/bin/cudalite-benchmark
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=180
+
+# Dedicated unprivileged account; only GPU device access via the video/render groups.
+User=cudalite
+Group=cudalite
+SupplementaryGroups=video render
+
+# CUDA needs /dev/nvidia{0,ctl} and /dev/nvidia-uvm. Normally the setuid nvidia-modprobe
+# helper creates them on demand, but NoNewPrivileges=true (below) disables setuid, so a
+# privileged '+' pre-step creates the nodes once. It runs outside the sandbox below.
+ExecStartPre=+/usr/bin/nvidia-modprobe -u -c0
+ExecStart=/usr/local/bin/cudalite-benchmark --quick --out /var/lib/cudalite
+
+Environment=HOME=/var/lib/cudalite
+Environment=CUDA_CACHE_DISABLE=1
+StandardOutput=journal
+StandardError=journal
+
+# ---- sandbox (verify: systemd-analyze security cudalite-benchmark.service) ----------
+NoNewPrivileges=true
+CapabilityBoundingSet=
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/cudalite
+StateDirectory=cudalite
+UMask=0077
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+PrivateNetwork=true
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+SystemCallArchitectures=native
+# Deliberately NOT set: MemoryDenyWriteExecute and PrivateDevices (the CUDA driver needs
+# writable+executable mappings and the real /dev/nvidia* nodes).
+
+[Install]
+WantedBy=multi-user.target

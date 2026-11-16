@@ -1,0 +1,65 @@
+#!/bin/sh
+# CudaLite OS chroot hook. Runs inside the Debian 13 chroot after packages and
+# config/includes.chroot are in place.
+#
+# NOTE: live-build 3.0~a57 only runs config/hooks/*.chroot (flat). The newer
+# config/hooks/normal/*.hook.chroot layout is silently ignored by this version.
+set -eu
+
+log() { echo "[cudalite-hook] $*"; }
+
+# ---- 1. unprivileged service account for the benchmark ------------------------------
+getent group render >/dev/null || groupadd --system render
+getent group video  >/dev/null || groupadd --system video
+if ! id -u cudalite >/dev/null 2>&1; then
+    useradd --system --create-home --home-dir /var/lib/cudalite \
+            --shell /usr/sbin/nologin cudalite
+fi
+usermod -aG video,render cudalite
+log "service user: $(id cudalite)"
+
+# ---- 2. interactive demo user with console autologin --------------------------------
+# live-config would create this from 'username=cudauser' at boot, but the first QEMU test
+# showed autologin racing it ("Authentication failure"), so create it at build time.
+if ! id -u cudauser >/dev/null 2>&1; then
+    useradd -m -s /bin/bash -G sudo,video,render cudauser
+fi
+passwd -d cudauser >/dev/null            # console-only account; no sshd, inbound firewall closed
+mkdir -p /etc/sudoers.d
+echo "cudauser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-cudauser
+chmod 0440 /etc/sudoers.d/90-cudauser
+
+mkdir -p /etc/systemd/system/getty@tty1.service.d
+cat > /etc/systemd/system/getty@tty1.service.d/override.conf <<'EOT'
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin cudauser --noclear %I $TERM
+EOT
+
+# ---- 3. services ---------------------------------------------------------------------
+systemctl enable cudalite-benchmark.service
+systemctl enable nftables.service
+systemctl enable systemd-modules-load.service 2>/dev/null || true
+
+# ---- 4. NVIDIA kernel module for every installed kernel -----------------------------
+# Fail the build loudly if the driver is missing: an image without it would boot fine
+# and silently have no GPU.
+for kdir in /lib/modules/*; do
+    kver="$(basename "$kdir")"
+    log "kernel $kver: building NVIDIA module with DKMS"
+    if ! modinfo -k "$kver" nvidia >/dev/null 2>&1; then
+        dkms autoinstall -k "$kver"
+        depmod -a "$kver"
+    fi
+    if ! modinfo -k "$kver" nvidia >/dev/null 2>&1; then
+        log "FATAL: nvidia.ko not found for $kver"
+        dkms status || true
+        exit 1
+    fi
+    log "kernel $kver: $(modinfo -k "$kver" -F version nvidia) -> $(modinfo -k "$kver" -F filename nvidia)"
+done
+update-initramfs -u -k all
+
+# ---- 5. housekeeping ----------------------------------------------------------------
+rm -rf /var/cache/apt/archives/*.deb /var/lib/apt/lists/* /var/cache/debconf/*-old /var/lib/dpkg/*-old
+log "done"

@@ -1,14 +1,44 @@
+# CudaLite OS package set (Debian 13 "trixie", amd64).
+# Recommends are disabled (auto/config), so every runtime dependency we want is explicit.
+# Each group is justified in docs/report-notes.md.
+
+# --- kernel and live-boot plumbing --------------------------------------------------
+# (kernel is listed explicitly because --linux-packages none; see auto/config)
 linux-image-amd64
+linux-headers-amd64
 live-boot
 live-config
 live-config-systemd
 systemd
 systemd-sysv
+udev
+dbus
+libpam-systemd
+kmod
+
+# --- NVIDIA driver: headless compute only (no Xorg / GL / Vulkan / VDPAU) -----------
+# Debian 13 ships the 550 branch = CUDA 12.4 level, matching the host's nvcc 12.4.
+nvidia-kernel-dkms
+firmware-nvidia-gsp
+libcuda1
+nvidia-smi
+nvidia-modprobe
+
+# --- toolchain DKMS needs to build the module against the exact target kernel -------
+dkms
+gcc
+make
+
+# --- firmware for the laptop's AMD iGPU, which drives the display ------------------
+firmware-amd-graphics
+
+# --- base tools ---------------------------------------------------------------------
 sudo
 ca-certificates
+nftables
+procps
 pciutils
 usbutils
-procps
 iproute2
 iputils-ping
 less

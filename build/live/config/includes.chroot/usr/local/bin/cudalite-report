@@ -1,0 +1,61 @@
+#!/bin/bash
+# cudalite-report: collect every validation output for the CudaLite OS report in one go.
+# Run on the booted image:   cudalite-report            (quick benchmark)
+#                            cudalite-report --full     (also run the full benchmark)
+# Output: printed and saved to ~/cudalite-validation-<time>.txt (copy it to a USB stick).
+OUT="${HOME}/cudalite-validation-$(date +%Y%m%dT%H%M%S).txt"
+FULL=0; [ "${1:-}" = "--full" ] && FULL=1
+
+sec() { printf '\n==================== %s ====================\n' "$*"; }
+run() { printf '\n$ %s\n' "$*"; bash -c "$*" 2>&1; }
+
+{
+sec "1. System and kernel"
+run "uname -a"
+run "cat /etc/os-release | head -4"
+run "cat /proc/cmdline"
+
+sec "2. GPU and driver"
+run "lspci -nnk | grep -A3 -i nvidia"
+run "lsmod | grep -i nvidia"
+run "nvidia-smi"
+run "nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used,utilization.gpu,power.draw --format=csv"
+run "ls -l /dev/nvidia*"
+run "dpkg-query -W nvidia-kernel-dkms libcuda1 nvidia-smi firmware-nvidia-gsp"
+
+sec "3. Auto-start service"
+run "systemctl status cudalite-benchmark.service --no-pager"
+run "journalctl -u cudalite-benchmark.service -b --no-pager"
+run "systemctl show cudalite-benchmark.service -p ActiveEnterTimestampMonotonic -p Result -p ExecMainStatus"
+
+sec "4. CUDA smoke test and benchmark"
+run "/usr/local/bin/hello_cuda"
+run "/usr/local/bin/cudalite-benchmark --quick"
+[ "$FULL" = 1 ] && run "/usr/local/bin/cudalite-benchmark --full --out $HOME/bench"
+
+sec "5. Boot time"
+run "systemd-analyze"
+run "systemd-analyze critical-chain --no-pager"
+run "systemd-analyze blame --no-pager | head -15"
+
+sec "6. Memory and footprint"
+run "free -h"
+run "grep -E 'MemTotal|MemFree|MemAvailable|Shmem:' /proc/meminfo"
+run "echo installed packages: \$(dpkg-query -W -f='\${binary:Package}\\n' | sort -u | wc -l)"
+run "ls -l /run/live/medium/live/ 2>/dev/null"
+run "df -h / /run/live/medium 2>/dev/null"
+run "du -sx --block-size=1M /usr /var /lib /etc /opt 2>/dev/null"
+
+sec "7. Hardening verification"
+run "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS / /run/live/rootfs/filesystem.squashfs"
+run "id cudalite"
+run "ss -tulpn"
+run "sudo nft list ruleset"
+run "systemd-analyze security cudalite-benchmark.service --no-pager | tail -25"
+run "sysctl kernel.kptr_restrict kernel.dmesg_restrict kernel.yama.ptrace_scope kernel.unprivileged_bpf_disabled"
+run "touch /usr/test-readonly 2>&1; echo '(write to /usr goes to the RAM overlay; squashfs layer is read-only)'"
+run "sudo dmesg | grep -iE 'nvidia|nvrm|firmware' | head -25"
+} 2>&1 | tee "$OUT"
+
+echo
+echo "Saved to $OUT"

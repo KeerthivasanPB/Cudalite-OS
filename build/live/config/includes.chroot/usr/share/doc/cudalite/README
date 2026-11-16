@@ -1,0 +1,12 @@
+CudaLite OS - minimal Debian 13 live image for NVIDIA CUDA compute (RTX 4060).
+
+  nvidia-smi                      confirm the GPU and driver
+  hello_cuda                      CUDA smoke test
+  cudalite-benchmark [--quick|--full]   CPU vs GPU matrix multiplication
+  cudalite-report [--full]        collect all validation outputs into a text file
+  systemctl status cudalite-benchmark.service
+  journalctl -u cudalite-benchmark.service -b
+
+The benchmark runs automatically at boot as the unprivileged 'cudalite' user.
+Results: /var/lib/cudalite/latest.csv (RAM overlay; copy to USB to keep).
+The root filesystem is a read-only SquashFS with a RAM overlay; changes vanish at reboot.
