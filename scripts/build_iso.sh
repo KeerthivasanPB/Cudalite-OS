@@ -30,7 +30,7 @@ done
 step() { printf '\n\033[1m[%s] %s\033[0m\n' "$1" "$2"; }
 
 # ---- sudo: authenticate once and keep it alive for the (long) chroot stage ------------
-sudo -v
+sudo -n true 2>/dev/null || sudo -v
 ( while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done ) 2>/dev/null &
 KEEPALIVE=$!
 
@@ -57,17 +57,21 @@ if [[ $SKIP_BENCH -eq 0 ]]; then "$ROOT/scripts/build_benchmark.sh"; fi
 chmod 0755 config/includes.chroot/usr/local/bin/*
 
 step 2/7 "live-build configuration (auto/config)"
+# earlier sudo runs leave root-owned stage files; `lb config` runs unprivileged
+sudo chown -R "$USER:$USER" .build config 2>/dev/null || true
 lb config
 
 step 3/7 "Debian 13 chroot (packages, includes, hooks)"
+# stdin must NOT be a terminal: sudo gives the command a pty, and apt-get inside the chroot then
+# calls tcsetattr() on it, which stops it (SIGTTOU) and hangs the whole build after "tzdata" is upgraded.
 if [[ $CLEAN -eq 1 ]]; then
-    sudo lb clean --all
-    sudo lb bootstrap 2>&1 | tee "$LOG"
-    sudo lb chroot 2>&1 | tee -a "$LOG"
+    sudo lb clean --all </dev/null
+    sudo lb bootstrap </dev/null 2>&1 | tee "$LOG"
+    sudo lb chroot </dev/null 2>&1 | tee -a "$LOG"
 else
     sudo rm -f chroot/sbin/start-stop-daemon.orig
     sudo find .build -maxdepth 1 \( -name 'chroot*' -o -name 'includes.chroot*' \) -delete
-    sudo lb chroot 2>&1 | tee "$LOG"
+    sudo lb chroot </dev/null 2>&1 | tee "$LOG"
 fi
 unmount_chroot
 ls chroot/boot/vmlinuz-* >/dev/null 2>&1 || { echo "no kernel in chroot"; exit 1; }
