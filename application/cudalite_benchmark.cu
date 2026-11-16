@@ -190,20 +190,21 @@ static void usage(const char* p) {
 int main(int argc, char** argv) {
     std::vector<int> sizes = {512, 1024, 2048, 4096};
     int gpuReps = 10;
-    bool quick = false;
+    std::string mode = "full";
     std::string outDir;
 
     for (int i = 1; i < argc; ++i) {
         std::string a = argv[i];
         if (a == "--quick") {
-            quick = true;
+            mode = "quick";
             sizes = {512, 1024};
             gpuReps = 5;
         } else if (a == "--full") {
-            quick = false;
+            mode = "full";
             sizes = {512, 1024, 2048, 4096};
             gpuReps = 10;
         } else if (a == "--sizes" && i + 1 < argc) {
+            mode = "custom";
             sizes.clear();
             char* s = strdup(argv[++i]);
             for (char* t = strtok(s, ","); t; t = strtok(nullptr, ",")) sizes.push_back(atoi(t));
@@ -246,7 +247,7 @@ int main(int argc, char** argv) {
     char stamp[32];
     strftime(stamp, sizeof stamp, "%Y-%m-%dT%H:%M:%SZ", gmtime(&t0));
 
-    printf("==== CudaLite OS benchmark v" VERSION " (%s mode) ====\n", quick ? "quick" : "full");
+    printf("==== CudaLite OS benchmark v" VERSION " (%s mode) ====\n", mode.c_str());
     printf("time (UTC)    : %s\n", stamp);
     printf("GPU           : %s  (compute %d.%d, %d SMs, %.0f MiB VRAM)\n", prop.name, prop.major,
            prop.minor, prop.multiProcessorCount, prop.totalGlobalMem / 1048576.0);
