@@ -5,7 +5,7 @@
 LB_CHROOT_FILESYSTEM="squashfs"
 
 # $LB_UNION_FILESYSTEM: set union filesystem
-# (Default: aufs)
+# (Default: overlay)
 LB_UNION_FILESYSTEM="overlay"
 
 # $LB_EXPOSED_ROOT: expose root as read only

@@ -74,20 +74,20 @@ LB_HDD_LABEL="DEBIAN_LIVE"
 LB_HDD_SIZE="10000"
 
 # $LB_ISO_APPLICATION: set iso author
-# (Default: Debian Live)
-LB_ISO_APPLICATION="Debian Live"
+# (Default: CudaLite OS)
+LB_ISO_APPLICATION="CudaLite OS"
 
 # $LB_ISO_PREPARER: set iso preparer
-# (Default: live-build $VERSION; http://packages.qa.debian.org/live-build)
-LB_ISO_PREPARER="live-build $VERSION; http://packages.qa.debian.org/live-build"
+# (Default: CudaLite OS build scripts)
+LB_ISO_PREPARER="CudaLite OS build scripts"
 
 # $LB_ISO_PUBLISHER: set iso publisher
 # (Default: Debian Live project; http://live.debian.net/; debian-live@lists.debian.org)
 LB_ISO_PUBLISHER="Debian Live project; http://live.debian.net/; debian-live@lists.debian.org"
 
 # $LB_ISO_VOLUME: set iso volume (max 32 chars)
-# (Default: Debian trixie $(date +%Y%m%d-%H:%M))
-LB_ISO_VOLUME="Debian trixie $(date +%Y%m%d-%H:%M)"
+# (Default: CUDALITE_OS)
+LB_ISO_VOLUME="CUDALITE_OS"
 
 # $LB_EXT_BLOCKSIZE: set EXT block size
 # (Default: unset)

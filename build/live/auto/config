@@ -1,0 +1,41 @@
+#!/bin/sh
+# Regenerates build/live/config/{common,bootstrap,chroot,binary,source} exactly as
+# used for CudaLite OS. Run with `lb config` (no arguments) from build/live/.
+# Hand-written inputs (package lists, includes, hooks) live in config/ and are untouched.
+#
+# Host: Ubuntu's live-build 3.0~a57. Notes on why each non-default option is here:
+#   --mode debian / mirrors   : Ubuntu's lb would otherwise point debootstrap at archive.ubuntu.com
+#   --security false          : a57 uses the obsolete "trixie/updates" security URL (Debian 10 style)
+#   --linux-packages none     : a57 looks for dists/trixie/Contents-amd64.gz, which no longer exists;
+#                               the kernel packages are listed explicitly in the package list instead
+#   --initsystem systemd, --initramfs live-boot : sysvinit-core clashes with systemd-sysv otherwise
+#   --apt-recommends false    : keeps the image small (dkms/headers/etc. are listed explicitly)
+#   --debian-installer false  : live ISO only, no installer
+set -e
+
+lb config noauto \
+	--mode debian \
+	--distribution trixie \
+	--architectures amd64 \
+	--binary-images iso-hybrid \
+	--debian-installer false \
+	--security false \
+	--archive-areas "main contrib non-free non-free-firmware" \
+	--parent-mirror-bootstrap http://deb.debian.org/debian/ \
+	--parent-mirror-chroot http://deb.debian.org/debian/ \
+	--parent-mirror-binary http://deb.debian.org/debian/ \
+	--mirror-bootstrap http://deb.debian.org/debian/ \
+	--mirror-chroot http://deb.debian.org/debian/ \
+	--mirror-binary http://deb.debian.org/debian/ \
+	--linux-packages none \
+	--initsystem systemd \
+	--initramfs live-boot \
+	--apt-recommends false \
+	--iso-volume CUDALITE_OS \
+	--iso-application "CudaLite OS" \
+	--iso-preparer "CudaLite OS build scripts" \
+	--bootappend-live "boot=live components hostname=cudalite username=cudauser" \
+	"${@}"
+
+# Option a57 has no flag for: overlayfs instead of aufs (aufs does not exist in Debian 13 kernels)
+sed -i 's|^LB_UNION_FILESYSTEM=.*|LB_UNION_FILESYSTEM="overlay"|' config/chroot config/common 2>/dev/null || true
