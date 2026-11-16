@@ -1,0 +1,64 @@
+# Ubuntu 26.04.1 host baseline (stock Linux), 2026-11-16T18:50:02+05:30
+# driver: 595.99.02, nvcc: release 12.4, power: battery
+==== CudaLite OS benchmark v1.0 (full mode) ====
+time (UTC)    : 2026-11-16T13:20:03Z
+GPU           : NVIDIA GeForce RTX 4060 Laptop GPU  (compute 8.9, 24 SMs, 7808 MiB VRAM)
+CUDA driver   : 13.2   runtime: 12.4 (statically linked)
+CPU threads   : 16   MemAvailable: 8222 MiB
+workload      : C = A x B, float32, 2*N^3 FLOP, GPU reps=10, medians reported
+
+N = 512  (1.0 MiB per matrix)
+  CPU 1 thread        :     32.94 ms  [32.77-35.25]       8.15 GFLOP/s
+  CPU 16 threads      :      5.32 ms  [4.65-7.26]      50.46 GFLOP/s
+  GPU naive kernel    :     0.390 ms  [0.386-0.397]     688.04 GFLOP/s   (kernel only)
+  GPU tiled kernel    :     0.308 ms  [0.299-0.310]     870.68 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :     0.363 ms / 0.300 ms   (pageable host memory)
+  GPU end-to-end      :     0.974 ms  [0.917-1.116]     275.60 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :    106.9x kernel-only,     33.8x end-to-end
+  speedup vs CPU 16T  :     17.3x kernel-only,      5.5x end-to-end
+  GPU memory in use   :       118 MiB of 7808 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.53e-07  tiled 3.53e-07  cpu-mt 0.00e+00  => PASS
+
+N = 1024  (4.0 MiB per matrix)
+  CPU 1 thread        :    162.95 ms  [124.28-273.18]      13.18 GFLOP/s
+  CPU 16 threads      :     17.84 ms  [17.60-18.76]     120.37 GFLOP/s
+  GPU naive kernel    :     3.010 ms  [3.007-3.012]     713.44 GFLOP/s   (kernel only)
+  GPU tiled kernel    :     2.312 ms  [2.310-2.317]     928.71 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :     0.769 ms / 0.490 ms   (pageable host memory)
+  GPU end-to-end      :     3.565 ms  [3.528-5.398]     602.45 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :     70.5x kernel-only,     45.7x end-to-end
+  speedup vs CPU 16T  :      7.7x kernel-only,      5.0x end-to-end
+  GPU memory in use   :       126 MiB of 7808 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.65e-07  tiled 3.65e-07  cpu-mt 0.00e+00  => PASS
+
+N = 2048  (16.0 MiB per matrix)
+  CPU 1 thread        :   1045.02 ms  [1045.02-1045.02]      16.44 GFLOP/s
+  CPU 16 threads      :    146.12 ms  [144.32-147.91]     117.58 GFLOP/s
+  GPU naive kernel    :    23.890 ms  [20.786-23.937]     719.13 GFLOP/s   (kernel only)
+  GPU tiled kernel    :    13.620 ms  [13.307-15.958]    1261.40 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :     9.390 ms / 3.472 ms   (pageable host memory)
+  GPU end-to-end      :    28.267 ms  [18.798-37.529]     607.76 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :     76.7x kernel-only,     37.0x end-to-end
+  speedup vs CPU 16T  :     10.7x kernel-only,      5.2x end-to-end
+  GPU memory in use   :       162 MiB of 7808 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.59e-07  tiled 3.59e-07  cpu-mt 0.00e+00  => PASS
+
+N = 4096  (64.0 MiB per matrix)
+  CPU 1 thread        :  16488.94 ms  [16488.94-16488.94]       8.34 GFLOP/s
+  CPU 16 threads      :   2261.90 ms  [2201.23-2322.57]      60.76 GFLOP/s
+  GPU naive kernel    :   201.630 ms  [200.141-205.606]     681.64 GFLOP/s   (kernel only)
+  GPU tiled kernel    :   161.376 ms  [138.108-163.911]     851.67 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :    12.358 ms / 6.950 ms   (pageable host memory)
+  GPU end-to-end      :   182.645 ms  [177.013-204.071]     752.49 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :    102.2x kernel-only,     90.3x end-to-end
+  speedup vs CPU 16T  :     14.0x kernel-only,     12.4x end-to-end
+  GPU memory in use   :       306 MiB of 7808 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.61e-07  tiled 3.61e-07  cpu-mt 0.00e+00  => PASS
+
+---- summary ----
+wall time          : 29.18 s
+process CPU use    : 320 % of one core (93.3 core-seconds)
+peak process RSS   : 563 MiB
+peak GPU mem in use: 306 MiB
+correctness        : ALL PASS
+results written    : docs/results/ubuntu-host/cudalite-benchmark-20261116T132003Z.csv and docs/results/ubuntu-host/latest.csv

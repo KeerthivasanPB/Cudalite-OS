@@ -13,3 +13,6 @@ build/live/*.zsync
 build/live/live-image*
 build/live/.build/
 *.log
+
+# Binaries staged into the image by scripts/build_benchmark.sh (regenerated, never committed)
+build/live/config/includes.chroot/usr/local/bin/
