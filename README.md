@@ -40,9 +40,11 @@ Output: `build/live/cudalite-os-rtx4060.iso`, plus `docs/image.sha256`, `docs/pa
 ## Boot it
 * **QEMU (boot check only, no GPU):** `qemu-system-x86_64 -m 4G -enable-kvm -cdrom build/live/cudalite-os-rtx4060.iso`
   (add `-bios /usr/share/ovmf/OVMF.fd` for UEFI). A VM without GPU passthrough cannot prove CUDA.
-* **Real hardware:** write to a USB stick (`sudo dd if=... of=/dev/sdX bs=4M status=progress oflag=sync`),
-  **disable Secure Boot** (the NVIDIA module is unsigned), boot from USB, pick the first GRUB entry.
-  If the display stays black, use the "nomodeset fallback" entry.
+* **Real hardware (one USB stick):** `sudo scripts/make_usb.sh /dev/sdX` writes the ISO and adds a FAT32
+  partition labelled `RESULTS` in the stick's free space (refuses non-USB or mounted disks, asks you to retype
+  the device name). **Disable Secure Boot** (the NVIDIA module is unsigned), boot from USB, pick the first
+  GRUB entry; if the display stays black use the "nomodeset fallback" entry. Save results from the live
+  system with `sudo mount -L RESULTS /mnt`, `cp ... /mnt`, `sync`, `sudo umount /mnt`.
 
 ## Verify the GPU and run the benchmark
 Log-in is automatic (`cudauser`). Then:
