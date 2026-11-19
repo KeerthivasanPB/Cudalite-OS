@@ -43,8 +43,9 @@ Output: `build/live/cudalite-os-rtx4060.iso`, plus `docs/image.sha256`, `docs/pa
 * **Real hardware (one USB stick):** `sudo scripts/make_usb.sh /dev/sdX` writes the ISO and adds a FAT32
   partition labelled `RESULTS` in the stick's free space (refuses non-USB or mounted disks, asks you to retype
   the device name). **Disable Secure Boot** (the NVIDIA module is unsigned), boot from USB, pick the first
-  GRUB entry; if the display stays black use the "nomodeset fallback" entry. Save results from the live
-  system with `sudo mount -L RESULTS /mnt`, `cp ... /mnt`, `sync`, `sudo umount /mnt`.
+  GRUB entry; if the display stays black use the "nomodeset fallback" entry. `cudalite-report` copies its
+  output to the stick's `RESULTS` partition automatically; to copy anything else by hand use
+  `sudo mount -L RESULTS /mnt`, `sudo cp ... /mnt`, `sync`, `sudo umount /mnt` (FAT32 is root-owned there).
 
 ## Verify the GPU and run the benchmark
 Log-in is automatic (`cudauser`). Then:

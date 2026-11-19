@@ -15,9 +15,14 @@ User=cudalite
 Group=cudalite
 SupplementaryGroups=video render
 
-# CUDA needs /dev/nvidia{0,ctl} and /dev/nvidia-uvm. Normally the setuid nvidia-modprobe
-# helper creates them on demand, but NoNewPrivileges=true (below) disables setuid, so a
-# privileged '+' pre-step creates the nodes once. It runs outside the sandbox below.
+# CUDA needs /dev/nvidia0, /dev/nvidiactl and /dev/nvidia-uvm. Normally the setuid
+# nvidia-modprobe helper creates them on demand, but NoNewPrivileges=true (below) disables
+# setuid, so privileged '+' pre-steps create the nodes. They run outside the sandbox below.
+# Two separate calls are required: with -u, nvidia-modprobe treats every -c minor as a UVM
+# minor and creates only /dev/nvidia-uvm{,-tools} (verified on the RTX 4060: the first
+# hardware run failed with "no CUDA-capable device" for exactly this reason).
+# Minor 0 = /dev/nvidia0, minor 255 = /dev/nvidiactl (NV_CTL_DEVICE_NUM).
+ExecStartPre=+/usr/bin/nvidia-modprobe -c0 -c255
 ExecStartPre=+/usr/bin/nvidia-modprobe -u -c0
 ExecStart=/usr/local/bin/cudalite-benchmark --quick --out /var/lib/cudalite
 

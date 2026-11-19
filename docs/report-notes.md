@@ -64,6 +64,15 @@ tests it against its own kernel, so DKMS builds the module for the exact target 
 17. **Build-process bug worth documenting:** under `sudo`, `lb`'s `apt-get` inherits a pty as stdin, gets
     SIGTTOU and hangs after the tzdata upgrade; the build script runs `lb` with stdin from `/dev/null`.
 
+18. **Found on real hardware: wrong `nvidia-modprobe` flags.** The first RTX 4060 boot showed
+    `nvidia-smi` and interactive CUDA working, but the boot service failed with "no CUDA-capable device".
+    Cause: with `-u`, nvidia-modprobe treats every `-c` minor as a UVM minor, so `nvidia-modprobe -u -c0`
+    created only `/dev/nvidia-uvm{,-tools}`, never `/dev/nvidia0`/`/dev/nvidiactl` (NVIDIA source:
+    `uvm_modprobe` branch of `main()`; minor 255 = `nvidiactl`). Interactive runs hid the bug because
+    libcuda calls the setuid helper itself; the service cannot (`NoNewPrivileges=true`). Reproduced on the
+    host with the image's own binary in a private `/dev` namespace, then fixed with two pre-steps:
+    `nvidia-modprobe -c0 -c255` and `nvidia-modprobe -u -c0`. Evidence: `docs/results/cudalite-hw-run1/`.
+
 ## Package inclusion / exclusion (Task 4)
 
 | Included | Why |

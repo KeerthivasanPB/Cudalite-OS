@@ -2,7 +2,8 @@
 # cudalite-report: collect every validation output for the CudaLite OS report in one go.
 # Run on the booted image:   cudalite-report            (quick benchmark)
 #                            cudalite-report --full     (also run the full benchmark)
-# Output: printed and saved to ~/cudalite-validation-<time>.txt (copy it to a USB stick).
+# Output: printed and saved to ~/cudalite-validation-<time>.txt, and copied automatically to the
+# USB stick's RESULTS partition when present (made by scripts/make_usb.sh).
 export PATH="$PATH:/usr/sbin:/sbin"   # sysctl, modinfo, ... are not on a normal user's PATH
 OUT="${HOME}/cudalite-validation-$(date +%Y%m%dT%H%M%S).txt"
 FULL=0; [ "${1:-}" = "--full" ] && FULL=1
@@ -45,7 +46,7 @@ run "grep -E 'MemTotal|MemFree|MemAvailable|Shmem:' /proc/meminfo"
 run "echo installed packages: \$(dpkg-query -W -f='\${binary:Package}\\n' | sort -u | wc -l)"
 run "ls -l /run/live/medium/live/ 2>/dev/null"
 run "df -h / /run/live/medium 2>/dev/null"
-run "du -sx --block-size=1M /usr /var /lib /etc /opt 2>/dev/null"
+run "sudo du -s --block-size=1M /run/live/rootfs/filesystem.squashfs /run/live/rootfs/filesystem.squashfs/{usr,var,etc} 2>/dev/null"   # image content (read-only layer); du -x reports 0 on the overlay
 
 sec "7. Hardening verification"
 run "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS -t overlay,squashfs,iso9660"
@@ -54,9 +55,27 @@ run "ss -tulpn"
 run "sudo nft list ruleset"
 run "systemd-analyze security cudalite-benchmark.service --no-pager | tail -25"
 run "sysctl kernel.kptr_restrict kernel.dmesg_restrict kernel.yama.ptrace_scope kernel.unprivileged_bpf_disabled"
-run "touch /usr/test-readonly 2>&1; echo '(write to /usr goes to the RAM overlay; squashfs layer is read-only)'"
+run "sudo touch /run/live/rootfs/filesystem.squashfs/rw-test 2>&1; echo '^ squashfs base layer is read-only even for root'"
+run "sudo touch /rw-test && echo 'write to / as root succeeded: it lands in the RAM overlay (lost at reboot)' && sudo rm /rw-test"
 run "sudo dmesg | grep -iE 'nvidia|nvrm|firmware' | head -25"
 } 2>&1 | tee "$OUT"
 
 echo
 echo "Saved to $OUT"
+
+# Copy to the USB stick's RESULTS partition if it is plugged in (FAT32 is root-owned here, hence sudo).
+RES=/dev/disk/by-label/RESULTS
+if [ -e "$RES" ]; then
+    MNT="$(mktemp -d)"
+    if sudo mount "$RES" "$MNT"; then
+        sudo cp "$OUT" "$MNT"/
+        [ -d "$HOME/bench" ] && sudo cp -r "$HOME/bench" "$MNT"/
+        sync
+        sudo umount "$MNT" && echo "Copied to the USB stick's RESULTS partition: $(basename "$OUT")$([ -d "$HOME/bench" ] && echo ' and bench/')"
+    else
+        echo "Could not mount the RESULTS partition; copy $OUT manually with sudo cp."
+    fi
+    rmdir "$MNT"
+else
+    echo "No RESULTS partition found; results are only in RAM until you copy them (use sudo cp)."
+fi
