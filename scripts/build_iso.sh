@@ -51,7 +51,7 @@ for tool in lb mksquashfs grub-mkrescue xorriso debootstrap; do
     command -v "$tool" >/dev/null || { echo "missing host tool: $tool"; exit 1; }
 done
 
-ls config/packages.chroot/linux-image-*-cudalite_*_amd64.deb config/packages.chroot/linux-headers-*-cudalite_*_amd64.deb >/dev/null 2>&1 \
+ls config/kernel-debs/linux-image-*-cudalite_*_amd64.deb config/kernel-debs/linux-headers-*-cudalite_*_amd64.deb >/dev/null 2>&1 \
     || { echo "custom kernel packages missing: run scripts/build_kernel.sh first"; exit 1; }
 
 step 1/7 "CUDA binaries -> config/includes.chroot/usr/local/bin"

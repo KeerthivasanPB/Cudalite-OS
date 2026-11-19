@@ -23,7 +23,7 @@ KVER="6.12.107"
 TARBALL="linux-$KVER.tar.xz"
 URL="https://cdn.kernel.org/pub/linux/kernel/v6.x"
 PKGVER="$KVER-1cudalite"
-STAGE="$ROOT/build/live/config/packages.chroot"
+STAGE="$ROOT/build/live/config/kernel-debs"
 CONFIG_ONLY=0; [[ "${1:-}" == "--config" ]] && CONFIG_ONLY=1
 JOBS="$(nproc)"
 

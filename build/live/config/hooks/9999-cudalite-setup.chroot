@@ -50,6 +50,14 @@ systemctl set-default multi-user.target     # no graphics stack in the image
 # public names (nvidia, nvidia-uvm) onto them, so `modprobe nvidia` works but `modinfo nvidia`
 # does not. Check the real name.
 MOD=nvidia-current
+# Install the custom kernel + headers (built by scripts/build_kernel.sh). live-build bind-mounts the
+# build config read-only at /root/config during hooks. The kernel's postinst runs the DKMS hook, which
+# builds the NVIDIA module against it.
+if ls /root/config/kernel-debs/linux-image-*.deb >/dev/null 2>&1; then
+    log "installing custom kernel: $(ls /root/config/kernel-debs/ | tr '\n' ' ')"
+    DEBIAN_FRONTEND=noninteractive apt-get install -y /root/config/kernel-debs/linux-image-*.deb /root/config/kernel-debs/linux-headers-*.deb
+fi
+ls /lib/modules/ | grep -q . || { log "FATAL: no kernel installed"; exit 1; }
 for kdir in /lib/modules/*; do
     kver="$(basename "$kdir")"
     log "kernel $kver: building NVIDIA module with DKMS"
