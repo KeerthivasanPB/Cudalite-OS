@@ -87,7 +87,11 @@ for kdir in /lib/modules/*; do
     modinfo -k "$(basename "$kdir")" "$MOD" >/dev/null 2>&1 || { log "FATAL: trim removed the NVIDIA module"; exit 1; }
 done
 dpkg --audit
-update-initramfs -u -k all
+# create the initramfs if the kernel package did not (custom kernels installed before initramfs-tools)
+for kdir in /lib/modules/*; do
+    kver="$(basename "$kdir")"
+    if [ -e "/boot/initrd.img-$kver" ]; then update-initramfs -u -k "$kver"; else update-initramfs -c -k "$kver"; fi
+done
 
 # ---- 5. housekeeping ----------------------------------------------------------------
 rm -rf /var/cache/apt/archives/*.deb /var/lib/apt/lists/* /var/cache/debconf/*-old /var/lib/dpkg/*-old

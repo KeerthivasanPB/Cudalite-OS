@@ -51,6 +51,9 @@ for tool in lb mksquashfs grub-mkrescue xorriso debootstrap; do
     command -v "$tool" >/dev/null || { echo "missing host tool: $tool"; exit 1; }
 done
 
+ls config/packages.chroot/linux-image-*-cudalite_*_amd64.deb config/packages.chroot/linux-headers-*-cudalite_*_amd64.deb >/dev/null 2>&1 \
+    || { echo "custom kernel packages missing: run scripts/build_kernel.sh first"; exit 1; }
+
 step 1/7 "CUDA binaries -> config/includes.chroot/usr/local/bin"
 if [[ $SKIP_BENCH -eq 0 ]]; then "$ROOT/scripts/build_benchmark.sh"; fi
 [[ -x config/includes.chroot/usr/local/bin/cudalite-benchmark ]] || { echo "benchmark binary not staged"; exit 1; }

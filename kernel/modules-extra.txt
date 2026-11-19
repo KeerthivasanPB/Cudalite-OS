@@ -1,0 +1,18 @@
+# Modules CudaLite OS needs that a running Ubuntu desktop may not have loaded.
+# Union with lsmod-legion-ubuntu.txt (this laptop's hardware) and modules-cudalite-qemu.txt
+# (what the live image loads in QEMU) forms the localmodconfig input.
+# live-boot: medium on USB stick (hybrid ISO: iso9660 + hfsplus view), squashfs + overlay root
+usb-storage uas sd_mod sr_mod cdrom isofs hfsplus squashfs overlay loop
+xhci_pci xhci_hcd ehci_pci ehci_hcd ohci_pci ohci_hcd usbhid hid_generic hid
+# RESULTS partition (FAT32) and character sets
+vfat fat nls_cp437 nls_iso8859_1 nls_ascii nls_utf8
+# internal disk (only to be readable if ever needed; never mounted automatically)
+nvme nvme_core ahci libahci ext4 jbd2 mbcache crc16
+# systemd / firmware interfaces
+autofs4 efivarfs configfs efi_pstore
+# nftables firewall (inet table, conntrack)
+nf_tables nfnetlink nft_ct nf_conntrack nf_defrag_ipv4 nf_defrag_ipv6 nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_reject_inet
+# NVIDIA driver dependencies (out-of-tree module needs these in-tree helpers)
+drm drm_kms_helper drm_ttm_helper ttm video wmi i2c_algo_bit backlight
+# QEMU test machine (boot checks in CI-like runs)
+ata_piix ata_generic libata bochs e1000 qemu_fw_cfg virtio_pci virtio_blk virtio_net virtio_scsi
