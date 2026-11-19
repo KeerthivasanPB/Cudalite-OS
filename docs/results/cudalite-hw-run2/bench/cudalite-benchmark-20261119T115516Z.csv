@@ -1,0 +1,5 @@
+gpu,N,cpu1_ms,cpu_mt_ms,cpu_threads,gpu_naive_ms,gpu_tiled_ms,gpu_tiled_min_ms,gpu_tiled_max_ms,h2d_ms,d2h_ms,gpu_e2e_ms,cpu1_gflops,cpu_mt_gflops,gpu_tiled_gflops,gpu_e2e_gflops,speedup_kernel_vs_cpu1,speedup_e2e_vs_cpu1,gpu_mem_used_mib,max_rel_err,pass
+"NVIDIA GeForce RTX 4060 Laptop GPU",512,8.735,1.508,16,0.3891,0.3051,0.3050,0.3056,0.2303,0.1523,0.6902,30.73,177.97,879.72,388.90,28.6,12.7,101,3.532e-07,1
+"NVIDIA GeForce RTX 4060 Laptop GPU",1024,72.413,10.786,16,3.0095,2.3149,2.3111,2.3163,0.7343,0.4687,3.5177,29.66,199.10,927.69,610.47,31.3,20.6,109,3.648e-07,1
+"NVIDIA GeForce RTX 4060 Laptop GPU",2048,999.440,105.152,16,20.0673,13.3166,13.3112,14.8692,2.9420,3.6014,19.9893,17.19,163.38,1290.11,859.45,75.1,50.0,145,3.588e-07,1
+"NVIDIA GeForce RTX 4060 Laptop GPU",4096,9767.634,1339.007,16,191.2432,145.7397,135.5634,147.6582,11.4128,6.3490,164.0181,14.07,102.64,943.04,837.95,67.0,59.6,289,3.607e-07,1
