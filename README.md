@@ -17,10 +17,12 @@ Development host: Ubuntu 26.04.1 LTS (also the stock-Linux baseline).
 | `application/` | CUDA sources: `hello_cuda.cu` (smoke test), `cudalite_benchmark.cu` (CPU vs GPU matmul) |
 | `build/live/auto/config` | The exact `lb config` recipe |
 | `build/live/config/` | live-build config: package list, hook, files baked into the image (`includes.chroot`) |
+| `kernel/` | Custom kernel inputs: config fragment, module lists, resulting `config-cudalite` |
+| `scripts/build_kernel.sh` | Build the custom 6.12.107-cudalite kernel packages (Debian 13 build chroot) |
 | `scripts/build_benchmark.sh` | Compile CUDA binaries (static CUDA runtime) and stage them into the image tree |
 | `scripts/build_iso.sh` | One-command ISO build + checksum + manifest |
 | `scripts/patch_live_build.sh` | One-line host fix for Ubuntu's old live-build |
-| `docs/` | `kernel.config`, kernel notes, `package-manifest.tsv`, `versions.txt`, `report-notes.md`, `results/` |
+| `docs/` | `kernel.config` (Debian's, for comparison), kernel notes, `package-manifest.tsv`, `versions.txt`, `report-notes.md`, `results/` |
 
 ## Build prerequisites (Ubuntu host)
 ```bash
@@ -31,6 +33,7 @@ Ubuntu's `live-build` is the old 3.0~a57 fork; `scripts/patch_live_build.sh` app
 
 ## Build the ISO
 ```bash
+scripts/build_kernel.sh           # custom kernel .debs (once; ~15 min first time)
 scripts/build_iso.sh --clean      # from scratch (first time)
 scripts/build_iso.sh              # incremental rebuild while iterating
 ```
