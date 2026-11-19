@@ -1,0 +1,342 @@
+
+==================== 1. System and kernel ====================
+
+$ uname -a
+Linux cudalite 6.12.107+deb13-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.107-1 (2026-08-29) x86_64 GNU/Linux
+
+$ cat /etc/os-release | head -4
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+NAME="Debian GNU/Linux"
+VERSION_ID="13"
+VERSION="13 (trixie)"
+
+$ cat /proc/cmdline
+BOOT_IMAGE=/live/vmlinuz boot=live components hostname=cudalite username=cudauser modprobe.blacklist=nouveau
+
+==================== 2. GPU and driver ====================
+
+$ lspci -nnk | grep -A3 -i nvidia
+pcilib: Error reading /sys/bus/pci/devices/0000:00:08.3/label: Operation not permitted
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation AD107M [GeForce RTX 4060 Max-Q / Mobile] [10de:28e0] (rev a1)
+	Subsystem: Lenovo Device [17aa:3d2d]
+	Kernel driver in use: nvidia
+	Kernel modules: nvidia
+01:00.1 Audio device [0403]: NVIDIA Corporation AD107 High Definition Audio Controller [10de:22be] (rev a1)
+	Subsystem: Lenovo Device [17aa:3d2d]
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
+$ lsmod | grep -i nvidia
+nvidia_uvm           4915200  0
+nvidia_drm            118784  0
+nvidia_modeset       1605632  1 nvidia_drm
+drm_ttm_helper         16384  3 amdgpu,nvidia_drm
+drm_kms_helper        253952  4 drm_display_helper,amdgpu,drm_ttm_helper,nvidia_drm
+nvidia              60702720  2 nvidia_uvm,nvidia_modeset
+nvidia_wmi_ec_backlight    12288  0
+drm                   774144  14 gpu_sched,i2c_hid,drm_kms_helper,drm_exec,drm_suballoc_helper,drm_display_helper,nvidia,drm_buddy,amdgpu,drm_ttm_helper,nvidia_drm,ttm,amdxcp
+video                  81920  4 nvidia_wmi_ec_backlight,amdgpu,ideapad_laptop,nvidia_modeset
+wmi                    28672  4 video,nvidia_wmi_ec_backlight,wmi_bmof,ideapad_laptop
+
+$ nvidia-smi
+Thu Nov 19 07:19:27 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.163.01             Driver Version: 550.163.01     CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4060 ...    Off |   00000000:01:00.0 Off |                  N/A |
+| N/A   44C    P3             11W /   55W |       1MiB /   8188MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+$ nvidia-smi --query-gpu=name,driver_version,memory.total,memory.used,utilization.gpu,power.draw --format=csv
+name, driver_version, memory.total [MiB], memory.used [MiB], utilization.gpu [%], power.draw [W]
+NVIDIA GeForce RTX 4060 Laptop GPU, 550.163.01, 8188 MiB, 1 MiB, 0 %, 11.22 W
+
+$ ls -l /dev/nvidia*
+crw-rw-rw- 1 root root 510,   0 Nov 19 07:12 /dev/nvidia-uvm
+crw-rw-rw- 1 root root 510,   1 Nov 19 07:12 /dev/nvidia-uvm-tools
+crw-rw-rw- 1 root root 195,   0 Nov 19 07:17 /dev/nvidia0
+crw-rw-rw- 1 root root 195, 255 Nov 19 07:17 /dev/nvidiactl
+
+/dev/nvidia-caps:
+total 0
+cr-------- 1 root root 240, 1 Nov 19 07:19 nvidia-cap1
+cr--r--r-- 1 root root 240, 2 Nov 19 07:19 nvidia-cap2
+
+$ dpkg-query -W nvidia-kernel-dkms libcuda1 nvidia-smi firmware-nvidia-gsp
+firmware-nvidia-gsp	550.163.01-2
+libcuda1:amd64	550.163.01-2
+nvidia-kernel-dkms	550.163.01-2
+nvidia-smi	550.163.01-2
+
+==================== 3. Auto-start service ====================
+
+$ systemctl status cudalite-benchmark.service --no-pager
+× cudalite-benchmark.service - CudaLite GPU benchmark (CPU vs GPU matrix multiplication)
+     Loaded: loaded (/etc/systemd/system/cudalite-benchmark.service; enabled; preset: enabled)
+     Active: failed (Result: exit-code) since Thu 2026-11-19 07:12:40 UTC; 6min ago
+ Invocation: 363c7db815ba401ca67c291bab847916
+       Docs: file:///usr/share/doc/cudalite/README
+    Process: 1214 ExecStartPre=/usr/bin/nvidia-modprobe -u -c0 (code=exited, status=0/SUCCESS)
+    Process: 1252 ExecStart=/usr/local/bin/cudalite-benchmark --quick --out /var/lib/cudalite (code=exited, status=1/FAILURE)
+   Main PID: 1252 (code=exited, status=1/FAILURE)
+   Mem peak: 14.8M
+        CPU: 1.019s
+
+Nov 19 07:12:38 cudalite systemd[1]: Starting cudalite-benchmark.service - CudaLite GPU benchmark (CPU vs GPU matrix multiplication)...
+Nov 19 07:12:40 cudalite cudalite-benchmark[1252]: No usable CUDA device: no CUDA-capable device is detected
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Main process exited, code=exited, status=1/FAILURE
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Failed with result 'exit-code'.
+Nov 19 07:12:40 cudalite systemd[1]: Failed to start cudalite-benchmark.service - CudaLite GPU benchmark (CPU vs GPU matrix multiplication).
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Consumed 1.019s CPU time, 14.8M memory peak.
+
+$ sudo journalctl -u cudalite-benchmark.service -b --no-pager
+Nov 19 07:12:38 cudalite systemd[1]: Starting cudalite-benchmark.service - CudaLite GPU benchmark (CPU vs GPU matrix multiplication)...
+Nov 19 07:12:40 cudalite cudalite-benchmark[1252]: No usable CUDA device: no CUDA-capable device is detected
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Main process exited, code=exited, status=1/FAILURE
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Failed with result 'exit-code'.
+Nov 19 07:12:40 cudalite systemd[1]: Failed to start cudalite-benchmark.service - CudaLite GPU benchmark (CPU vs GPU matrix multiplication).
+Nov 19 07:12:40 cudalite systemd[1]: cudalite-benchmark.service: Consumed 1.019s CPU time, 14.8M memory peak.
+
+$ systemctl show cudalite-benchmark.service -p ActiveEnterTimestampMonotonic -p Result -p ExecMainStatus
+Result=exit-code
+ExecMainStatus=1
+ActiveEnterTimestampMonotonic=0
+
+==================== 4. CUDA smoke test and benchmark ====================
+
+$ /usr/local/bin/hello_cuda
+GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+Hello from CUDA thread 0
+Hello from CUDA thread 1
+Hello from CUDA thread 2
+Hello from CUDA thread 3
+Hello from CUDA thread 4
+Hello from CUDA thread 5
+Hello from CUDA thread 6
+Hello from CUDA thread 7
+
+$ /usr/local/bin/cudalite-benchmark --quick
+==== CudaLite OS benchmark v1.0 (quick mode) ====
+time (UTC)    : 2026-11-19T07:19:33Z
+GPU           : NVIDIA GeForce RTX 4060 Laptop GPU  (compute 8.9, 24 SMs, 7933 MiB VRAM)
+CUDA driver   : 12.4   runtime: 12.4 (statically linked)
+CPU threads   : 16   MemAvailable: 14493 MiB
+workload      : C = A x B, float32, 2*N^3 FLOP, GPU reps=5, medians reported
+
+N = 512  (1.0 MiB per matrix)
+  CPU 1 thread        :      8.70 ms  [8.53-8.76]      30.85 GFLOP/s
+  CPU 16 threads      :      1.47 ms  [1.38-2.39]     182.70 GFLOP/s
+  GPU naive kernel    :     0.391 ms  [0.388-0.398]     686.24 GFLOP/s   (kernel only)
+  GPU tiled kernel    :     0.306 ms  [0.302-0.308]     878.30 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :     0.230 ms / 0.155 ms   (pageable host memory)
+  GPU end-to-end      :     0.689 ms  [0.687-1.055]     389.84 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :     28.5x kernel-only,     12.6x end-to-end
+  speedup vs CPU 16T  :      4.8x kernel-only,      2.1x end-to-end
+  GPU memory in use   :       101 MiB of 7933 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.53e-07  tiled 3.53e-07  cpu-mt 0.00e+00  => PASS
+
+N = 1024  (4.0 MiB per matrix)
+  CPU 1 thread        :     72.37 ms  [70.97-72.67]      29.67 GFLOP/s
+  CPU 16 threads      :     11.01 ms  [10.64-11.59]     195.00 GFLOP/s
+  GPU naive kernel    :     3.010 ms  [3.009-3.011]     713.56 GFLOP/s   (kernel only)
+  GPU tiled kernel    :     2.314 ms  [2.312-2.318]     928.02 GFLOP/s   (kernel only)
+  GPU H2D / D2H       :     1.499 ms / 0.601 ms   (pageable host memory)
+  GPU end-to-end      :     4.329 ms  [3.517-5.249]     496.09 GFLOP/s   (H2D+kernel+D2H)
+  speedup vs CPU 1T   :     31.3x kernel-only,     16.7x end-to-end
+  speedup vs CPU 16T  :      4.8x kernel-only,      2.5x end-to-end
+  GPU memory in use   :       109 MiB of 7933 MiB (whole device, incl. CUDA context)
+  max rel. error      : naive 3.65e-07  tiled 3.65e-07  cpu-mt 0.00e+00  => PASS
+
+---- summary ----
+wall time          : 0.36 s
+process CPU use    : 416 % of one core (1.5 core-seconds)
+peak process RSS   : 126 MiB
+peak GPU mem in use: 109 MiB
+correctness        : ALL PASS
+
+==================== 5. Boot time ====================
+
+$ systemd-analyze
+Startup finished in 7.912s (firmware) + 7.440s (loader) + 5.786s (kernel) + 10.297s (userspace) = 31.437s 
+multi-user.target reached after 8.856s in userspace.
+
+$ systemd-analyze critical-chain --no-pager
+The time when unit became active or started is printed after the "@" character.
+The time the unit took to start is printed after the "+" character.
+
+multi-user.target @8.856s
+└─systemd-logind.service @8.713s +136ms
+  └─basic.target @8.709s
+    └─live-config.service @3.874s +4.834s
+      └─systemd-tmpfiles-setup.service @2.835s +1.034s
+        └─local-fs.target @2.817s
+          └─tmp.mount @2.763s +53ms
+            └─local-fs-pre.target @2.760s
+              └─systemd-tmpfiles-setup-dev.service @2.706s +51ms
+                └─systemd-sysusers.service @2.002s +700ms
+                  └─systemd-tmpfiles-setup-dev-early.service @1.551s +445ms
+                    └─kmod-static-nodes.service @1.481s +52ms
+                      └─systemd-journald.socket @1.414s
+                        └─-.mount @1.289s
+                          └─-.slice @1.289s
+
+$ systemd-analyze blame --no-pager | head -15
+6.778s systemd-modules-load.service
+4.834s live-config.service
+4.607s dev-sda3.device
+3.871s ldconfig.service
+3.581s dev-loop0.device
+2.713s nftables.service
+2.096s systemd-udevd.service
+1.439s cudalite-benchmark.service
+1.034s systemd-tmpfiles-setup.service
+ 700ms systemd-sysusers.service
+ 445ms systemd-tmpfiles-setup-dev-early.service
+ 404ms systemd-journal-catalog-update.service
+ 378ms systemd-sysctl.service
+ 361ms systemd-backlight@backlight:nvidia_wmi_ec_backlight.service
+ 330ms systemd-udev-trigger.service
+
+==================== 6. Memory and footprint ====================
+
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:            14Gi       664Mi        14Gi        19Mi       379Mi        14Gi
+Swap:             0B          0B          0B
+
+$ grep -E 'MemTotal|MemFree|MemAvailable|Shmem:' /proc/meminfo
+MemTotal:       15661292 kB
+MemFree:        14879672 kB
+MemAvailable:   14981248 kB
+Shmem:             20092 kB
+
+$ echo installed packages: $(dpkg-query -W -f='${binary:Package}\n' | sort -u | wc -l)
+installed packages: 214
+
+$ ls -l /run/live/medium/live/ 2>/dev/null
+total 384436
+-r--r--r-- 1 root root 337743872 Nov 16 15:19 filesystem.squashfs
+-r--r--r-- 1 root root  43775589 Nov 16 15:19 initrd.img
+-r--r--r-- 1 root root  12142528 Nov 16 15:19 vmlinuz
+
+$ df -h / /run/live/medium 2>/dev/null
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         7.5G   19M  7.5G   1% /
+/dev/sda3       385M  385M     0 100% /run/live/medium
+
+$ du -sx --block-size=1M /usr /var /lib /etc /opt 2>/dev/null
+0	/usr
+0	/var
+0	/lib
+0	/etc
+0	/opt
+
+==================== 7. Hardening verification ====================
+
+$ findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS -t overlay,squashfs,iso9660
+TARGET                                 SOURCE     FSTYPE   OPTIONS
+/                                      overlay    overlay  rw,noatime,lowerdir=/run/live/rootfs/filesystem.squashfs/,upperdir=/run/live/overlay/rw,workdir=/run/live/overlay/work,redirect_dir=on,uuid=on
+`-/run/live/rootfs/filesystem.squashfs /dev/loop0 squashfs ro,noatime,errors=continue
+
+$ id cudalite
+uid=990(cudalite) gid=990(cudalite) groups=990(cudalite),44(video),992(render)
+
+$ ss -tulpn
+Netid State Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+
+$ sudo nft list ruleset
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		iif "lo" accept
+		ct state invalid drop
+		ct state established,related accept
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+
+$ systemd-analyze security cudalite-benchmark.service --no-pager | tail -25
+✓ PrivateMounts=                                              Service cannot install system mounts                                          
+✓ CapabilityBoundingSet=~CAP_BLOCK_SUSPEND                    Service cannot establish wake locks                                           
+✓ RestrictNamespaces=~user                                    Service cannot create user namespaces                                         
+✓ RestrictNamespaces=~pid                                     Service cannot create process namespaces                                      
+✓ RestrictNamespaces=~net                                     Service cannot create network namespaces                                      
+✓ RestrictNamespaces=~uts                                     Service cannot create hostname namespaces                                     
+✓ RestrictNamespaces=~mnt                                     Service cannot create file system namespaces                                  
+✓ CapabilityBoundingSet=~CAP_LEASE                            Service cannot create file leases                                             
+✓ CapabilityBoundingSet=~CAP_MKNOD                            Service cannot create device nodes                                            
+✓ RestrictNamespaces=~cgroup                                  Service cannot create cgroup namespaces                                       
+✓ RestrictNamespaces=~ipc                                     Service cannot create IPC namespaces                                          
+✓ ProtectHostname=                                            Service cannot change system host/domainname                                  
+✓ CapabilityBoundingSet=~CAP_(CHOWN|FSETID|SETFCAP)           Service cannot change file ownership/access mode/capabilities                 
+✓ CapabilityBoundingSet=~CAP_SET(UID|GID|PCAP)                Service cannot change UID/GID identities/capabilities                         
+✓ LockPersonality=                                            Service cannot change ABI personality                                         
+✓ ProtectKernelTunables=                                      Service cannot alter kernel tunables (/proc/sys, …)                           
+✓ RestrictAddressFamilies=~AF_PACKET                          Service cannot allocate packet sockets                                        
+✓ RestrictAddressFamilies=~AF_NETLINK                         Service cannot allocate netlink sockets                                       
+✓ RestrictAddressFamilies=~…                                  Service cannot allocate exotic sockets                                        
+✓ RestrictAddressFamilies=~AF_(INET|INET6)                    Service cannot allocate Internet sockets                                      
+✓ CapabilityBoundingSet=~CAP_MAC_*                            Service cannot adjust SMACK MAC                                               
+✓ RestrictSUIDSGID=                                           SUID/SGID file creation by service is restricted                              
+✓ UMask=                                                      Files created by service are accessible only by service's own user by default 
+
+→ Overall exposure level for cudalite-benchmark.service: 2.6 OK :-)
+
+$ sysctl kernel.kptr_restrict kernel.dmesg_restrict kernel.yama.ptrace_scope kernel.unprivileged_bpf_disabled
+kernel.kptr_restrict = 2
+kernel.dmesg_restrict = 1
+kernel.yama.ptrace_scope = 1
+kernel.unprivileged_bpf_disabled = 1
+
+$ touch /usr/test-readonly 2>&1; echo '(write to /usr goes to the RAM overlay; squashfs layer is read-only)'
+touch: cannot touch '/usr/test-readonly': Permission denied
+(write to /usr goes to the RAM overlay; squashfs layer is read-only)
+
+$ sudo dmesg | grep -iE 'nvidia|nvrm|firmware' | head -25
+[    0.835968] ACPI: video: [Firmware Bug]: ACPI(PEGP) defines _DOD but not _DOS
+[    7.285872] systemd[1]: systemd-hibernate-clear.service - Clear Stale Hibernate Storage Info skipped, unmet condition check ConditionPathExists=/sys/firmware/efi/efivars/HibernateLocation-8cf2644b-4b0b-428f-9387-6d876050dc67
+[   11.638387] nvidia: loading out-of-tree module taints kernel.
+[   11.639123] nvidia: module license 'NVIDIA' taints kernel.
+[   11.640723] nvidia: module verification failed: signature and/or required key missing - tainting kernel
+[   11.641626] nvidia: module license taints kernel.
+[   11.947885] nvidia-nvlink: Nvlink Core is being initialized, major device number 239
+[   11.949525] nvidia 0000:01:00.0: enabling device (0000 -> 0003)
+[   11.951604] nvidia 0000:01:00.0: vgaarb: VGA decodes changed: olddecodes=io+mem,decodes=none:owns=none
+[   12.002810] NVRM: loading NVIDIA UNIX x86_64 Kernel Module  550.163.01  Tue Apr  8 12:41:17 UTC 2025
+[   12.088437] platform regulatory.0: firmware: failed to load regulatory.db (-2)
+[   12.089368] platform regulatory.0: firmware: failed to load regulatory.db (-2)
+[   12.090442] platform regulatory.0: firmware: failed to load regulatory.db (-2)
+[   12.091697] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
+[   12.665544] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw-1.bin (-2)
+[   12.666790] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw-1.bin (-2)
+[   12.667869] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw-1.bin (-2)
+[   12.668957] rtw89_8852ce 0000:03:00.0: Direct firmware load for rtw89/rtw8852c_fw-1.bin failed with error -2
+[   12.670007] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw.bin (-2)
+[   12.671068] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw.bin (-2)
+[   12.672065] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw.bin (-2)
+[   12.673031] rtw89_8852ce 0000:03:00.0: Direct firmware load for rtw89/rtw8852c_fw.bin failed with error -2
+[   12.673993] rtw89_8852ce 0000:03:00.0: failed to early request firmware: -2
+[   12.675674] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw.bin (-2)
+[   12.676553] rtw89_8852ce 0000:03:00.0: firmware: failed to load rtw89/rtw8852c_fw.bin (-2)
+
+Saved to /home/cudauser/cudalite-validation-20261119T071925.txt

@@ -1,0 +1,75 @@
+crw-rw-rw- 1 root root 510, 0 Nov 19 07:12 /dev/nvidia-uvm
+crw-rw-rw- 1 root root 510, 1 Nov 19 07:12 /dev/nvidia-uvm-tools
+== [] hello_cuda
+GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+Hello from CUDA thread 0
+Hello from CUDA thread 1
+Hello from CUDA thread 2
+Hello from CUDA thread 3
+Hello from CUDA thread 4
+Hello from CUDA thread 5
+Hello from CUDA thread 6
+Hello from CUDA thread 7
+exit=0
+== [sudo] hello_cuda
+GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+Hello from CUDA thread 0
+Hello from CUDA thread 1
+Hello from CUDA thread 2
+Hello from CUDA thread 3
+Hello from CUDA thread 4
+Hello from CUDA thread 5
+Hello from CUDA thread 6
+Hello from CUDA thread 7
+exit=0
+== [sudo -u cudalite] hello_cuda
+GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+Hello from CUDA thread 0
+Hello from CUDA thread 1
+Hello from CUDA thread 2
+Hello from CUDA thread 3
+Hello from CUDA thread 4
+Hello from CUDA thread 5
+Hello from CUDA thread 6
+Hello from CUDA thread 7
+exit=0
+[   14.973796] [drm] DMUB hardware initialized: version=0x08004E00
+[   14.976296] snd_hda_intel 0000:05:00.1: bound 0000:05:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+[   15.073152] [drm] PSR support 0, DC PSR ver -1, sink PSR ver 0 DPCD caps 0x2a su_y_granularity 0
+[   15.082173] kfd kfd: amdgpu: Allocated 3969056 bytes on gart
+[   15.082205] kfd kfd: amdgpu: Total number of KFD nodes to be created: 1
+[   15.082420] amdgpu: Virtual CRAT table created for GPU
+[   15.082920] amdgpu: Topology: Add dGPU node [0x1900:0x1002]
+[   15.082925] kfd kfd: amdgpu: added device 1002:1900
+[   15.082938] amdgpu 0000:05:00.0: amdgpu: SE 1, SH per SE 2, CU per SH 6, active_cu_number 12
+[   15.082946] amdgpu 0000:05:00.0: amdgpu: ring gfx_0.0.0 uses VM inv eng 0 on hub 0
+[   15.082950] amdgpu 0000:05:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng 1 on hub 0
+[   15.082954] amdgpu 0000:05:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng 4 on hub 0
+[   15.082958] amdgpu 0000:05:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng 6 on hub 0
+[   15.082961] amdgpu 0000:05:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng 7 on hub 0
+[   15.082965] amdgpu 0000:05:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng 8 on hub 0
+[   15.082968] amdgpu 0000:05:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng 9 on hub 0
+[   15.082972] amdgpu 0000:05:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng 10 on hub 0
+[   15.082975] amdgpu 0000:05:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng 11 on hub 0
+[   15.082979] amdgpu 0000:05:00.0: amdgpu: ring sdma0 uses VM inv eng 12 on hub 0
+[   15.082982] amdgpu 0000:05:00.0: amdgpu: ring vcn_unified_0 uses VM inv eng 0 on hub 8
+[   15.082986] amdgpu 0000:05:00.0: amdgpu: ring jpeg_dec uses VM inv eng 1 on hub 8
+[   15.082989] amdgpu 0000:05:00.0: amdgpu: ring mes_kiq_3.1.0 uses VM inv eng 13 on hub 0
+[   15.084829] [drm] ring gfx_1.1.1 was added
+[   15.085560] [drm] ring compute_1.2.2 was added
+[   15.086298] [drm] ring sdma_1.3.3 was added
+[   15.086371] [drm] ring gfx_1.1.1 ib test pass
+[   15.086444] [drm] ring compute_1.2.2 ib test pass
+[   15.086542] [drm] ring sdma_1.3.3 ib test pass
+[   15.089028] amdgpu 0000:05:00.0: amdgpu: Runtime PM not available
+[   15.089238] amdgpu 0000:05:00.0: amdgpu: [drm] Skipping amdgpu DM backlight registration
+[   15.089979] [drm] Initialized amdgpu 3.61.0 for 0000:05:00.0 on minor 1
+[   15.118303] fbcon: amdgpudrmfb (fb0) is primary device
+[   15.122139] [drm] pre_validate_dsc:1629 MST_DSC dsc precompute is not needed
+[   15.133198] Console: switching to colour frame buffer device 160x50
+[   15.152578] amdgpu 0000:05:00.0: [drm] fb0: amdgpudrmfb frame buffer device
+[   15.729429] nvidia_uvm: module uses symbols nvUvmInterfaceDisableAccessCntr from proprietary module nvidia, inheriting taint.
+[   15.756385] nvidia-uvm: Loaded the UVM driver, major device number 510.
+[  295.292793] ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI0.GPP0.PEGP.GPS.NVD1], AE_NOT_FOUND (20240827/psargs-332)
+[  295.292866] ACPI Error: Aborting method \_SB.PCI0.GPP0.PEGP.GPS due to previous error (AE_NOT_FOUND) (20240827/psparse-529)
+[  295.292920] ACPI Error: Aborting method \_SB.PCI0.GPP0.PEGP._DSM due to previous error (AE_NOT_FOUND) (20240827/psparse-529)
