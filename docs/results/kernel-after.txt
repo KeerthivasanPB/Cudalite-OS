@@ -6,4 +6,9 @@ initrd.img        : 13,653,318 bytes   (Debian: 43,774,865; -68.8 %)
 config            : 1983 options =y, 289 options =m   (Debian: 2,650 / 4,051)
 image             : ISO 278 MB (was 389), SquashFS 243 MB (was 323), packages 212 (was 214)
 boot (QEMU/KVM)   : kernel 2.229 s + userspace 4.830 s = 7.060 s   (Debian kernel, same VM: 2.479 + 5.182 = 7.661 s)
-boot (RTX 4060)   : pending hardware run 3
+boot (RTX 4060)   : kernel 5.238 s, userspace 10.394 s, multi-user.target @ 7.515 s userspace (hw-run3)
+                    kernel + multi-user.target = 12.75 s   (Debian kernel, hw-run2: 5.737 + 8.943 = 14.68 s; -13.1 %)
+                    systemd-modules-load 5.77 s (Debian kernel: 6.55 s)
+hardware check    : RTX 4060 driven by nvidia 550.163.01 built for 6.12.107-cudalite; amdgpu display, keyboard, USB OK;
+                    cudalite-benchmark.service active (exited), ALL PASS; idle RAM 646 MiB (Debian kernel: 665 MiB)
+                    Wi-Fi/Bluetooth firmware absent by design (offline appliance; rtw89/btrtl requests fail, harmless)
