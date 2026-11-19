@@ -1,0 +1,213 @@
+package	version	area	licences (from /usr/share/doc/<pkg>/copyright)
+adduser	3.152	main	GPL-2+
+apt	3.0.3	main	GPL-2+, curl, BSD-3-clause, Expat, GPL-2
+apt-utils	3.0.3	main	GPL-2+, curl, BSD-3-clause, Expat, GPL-2
+base-files	13.8+deb13u7	main	GPL-2+, verbatim
+base-passwd	3.6.7	main	GPL-2, public-domain
+bash	5.2.37-2+b10	main	GPL-3+, GPL-3+ with Bison exception, GPL-2+, GFDL-NIV-1.3, Latex2e, BSD-4-clause-UC, MIT-like, permissive
+binutils	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+binutils-common	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+binutils-x86-64-linux-gnu	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+bsdutils	1:2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+busybox	1:1.37.0-6+b9	main	GPL-2 (summarised)
+bzip2	1.0.8-6	main	BSD-variant, GPL-2
+ca-certificates	20250419	main	GPL-2+, MPL-2.0
+coreutils	9.7-3	main	GPL-3+, BSD-4-clause-UC, ISC, FSFULLR, GFDL-NIV-1.3
+cpio	2.15+dfsg-2	main	GPL-3+, LGPL-3+
+dash	0.5.12-12	main	BSD-3-Clause, public-domain, GPL-2+, BSD-3-clause
+dbus	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+dbus-bin	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+dbus-daemon	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+dbus-session-bus-common	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+dbus-system-bus-common	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+debconf	1.5.91	main	BSD-2-clause
+debconf-i18n	1.5.91	main	BSD-2-clause
+debian-archive-keyring	2025.1	main	GPL (summarised)
+debianutils	5.23.2	main	GPL-2+, public-domain, SMAIL-GPL
+dhcpcd-base	1:10.1.0-11+deb13u4	main	BSD-2-clause, BSD-2-Clause-NetBSD, BSD-3-clause, ISC, public-domain, Expat, GPL-3+
+diffutils	1:3.10-4	main	GPL-3+, FSFULLR, LGPL-2.1+, GPL-3+ with autoconf exception, GPL-3+ with texinfo exception, LGPL-2.0+, GPL-2+, X11, FSFAP, GFDL-NIV-1.3, LGPL-3.0+, public-domain
+dkms	3.2.2-1~deb13u1	main	GPL-2+
+dmidecode	3.6-2	main	GPL-2+
+dpkg	1.22.22	main	GPL-2+, public-domain-s-s-d
+dpkg-dev	1.22.22	main	GPL-2+, public-domain-s-s-d
+dracut-install	106-6	main	GPL-2+, BSD-3-clause, LGPL-2.1+
+e2fsprogs	1.47.2-3+b12	main	GPL-2, GPL-2+, 0BSD, Expat, BSD-3-Clause-Variant, BSD-3-Clause, BSD-4-Clause-CMU, LGPL-2, Apache-2, ISC, GPL, MIT-US-export, Kazlib, Latex2e, GPL-2+ with Texinfo exception
+fdisk	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+findutils	4.10.0-3	main	GFDL-NIV-1.3+, GPL-3+, FSFAP, GPL-2+ with Autoconf-data exception, GPL-3+ with Autoconf-data exception, FSFULLR, GPL-2+, X11, public-domain, LGPL-2.1+, GPL with automake exception, LGPL-2+, LGPL-3+, BSD-3-clause, GPL-3+ with Bison-2.2 exception, LGPL-3, GPL, LGPL, ISC
+firmware-amd-graphics	20250410-2	non-free-firmware	binary-redist-AMD-permissive / AMD-restrictive (redistributable binary firmware)
+firmware-nvidia-gsp	550.163.01-2	non-free-firmware	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+gcc-14-base	14.2.0-19	main	GPL-3+ with GCC Runtime Library Exception (summarised)
+glx-alternative-mesa	1.2.2	contrib	GPL-2.0+
+glx-alternative-nvidia	1.2.2	contrib	GPL-2.0+
+glx-diversions	1.2.2	contrib	GPL-2.0+
+grep	3.11-4	main	GPL-3+
+gzip	1.13-1+deb13u1	main	GPL-3+, GFDL-1.3+-no-invariant, FSF-manpages
+hostname	3.25	main	GPL-2
+ifupdown	0.8.44+deb13u1	main	GPL-2+
+init	1.69~deb13u1	main	BSD-3-clause, GPL-2+
+init-system-helpers	1.69~deb13u1	main	BSD-3-clause, GPL-2+
+initramfs-tools	0.148.4	main	GPL-2+
+initramfs-tools-bin	0.148.4	main	GPL-2+
+initramfs-tools-core	0.148.4	main	GPL-2+
+iproute2	6.15.0-1	main	GPL-2
+iputils-ping	3:20240905-3	main	BSD-3-clause, GPL-2+, public-domain
+klibc-utils	2.0.14-1	main	BSD-3-Clause, GPL-2 (summarised)
+kmod	34.2-2	main	LGPL-2.1+, GPL-2+
+less	668-1	main	GPL-3+, Less, and X11, X11, Spencer-86, public-domain
+libacl1	2.3.2-2+b1	main	GPL-2+, LGPL-2+
+libapparmor1	4.1.0-1	main	GPL-2+, BSD-3-clause, LGPL-2.1+, GPL-2
+libapt-pkg7.0	3.0.3	main	GPL-2+, curl, BSD-3-clause, Expat, GPL-2
+libattr1	1:2.5.2-3	main	GPL-2+, LGPL-2+
+libaudit-common	1:4.0.2-2+deb13u1	main	GPL-2, LGPL-2.1
+libaudit1	1:4.0.2-2+deb13u1	main	GPL-2, LGPL-2.1
+libbinutils	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+libblkid1	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+libbpf1	1:1.5.0-3	main	LGPL-2.1, BSD-2-Clause, GPL-2.0, GPL-2 with Linux-syscall-note exception, GPL-2 with Linux-syscall-note exception OR BSD-3-Clause, GPL-2+, BSD-3-Clause
+libbsd0	0.12.2-2	main	BSD-3-clause, BSD-3-clause-Regents, BSD-2-clause-NetBSD, BSD-3-clause-author, BSD-3-clause-John-Birrell, BSD-5-clause-Peter-Wemm, BSD-2-clause, BSD-2-clause-verbatim, BSD-2-clause-author, ISC, ISC-Original, Expat, public-domain, Beerware
+libbz2-1.0	1.0.8-6	main	BSD-variant, GPL-2
+libc-bin	2.41-12+deb13u4	main	LGPL-2.1+, LGPL-2+, LGPL-2.1+-with-link-exception, LGPL-3+, GPL-2+, GPL-2+-with-link-exception, GPL-2, GPL-3+, FSFAP, Carnegie, Inner-Net, MIT-like-Lord, BSD-like-Spencer, PCRE, BSD-3-clause-Carnegie, Unicode-DFS-2016, BSL-1.0, SunPro, CORE-MATH, BSD-3-clause-Berkeley, BSD-3-clause-WIDE, BSD-2-clause, BSD-3-clause-Oracle, DEC, IBM, ISC, Univ-Coimbra, public-domain
+libc6	2.41-12+deb13u4	main	LGPL-2.1+, LGPL-2+, LGPL-2.1+-with-link-exception, LGPL-3+, GPL-2+, GPL-2+-with-link-exception, GPL-2, GPL-3+, FSFAP, Carnegie, Inner-Net, MIT-like-Lord, BSD-like-Spencer, PCRE, BSD-3-clause-Carnegie, Unicode-DFS-2016, BSL-1.0, SunPro, CORE-MATH, BSD-3-clause-Berkeley, BSD-3-clause-WIDE, BSD-2-clause, BSD-3-clause-Oracle, DEC, IBM, ISC, Univ-Coimbra, public-domain
+libcap-ng0	0.8.5-4+b1	main	LGPL-2.1+, GPL-2+, GPL-3
+libcap2	1:2.75-10+deb13u1+b3	main	BSD-3-clause, GPL-2, GPL-2+
+libcap2-bin	1:2.75-10+deb13u1+b3	main	BSD-3-clause, GPL-2, GPL-2+
+libcbor0.10	0.10.2-2	main	Expat
+libcom-err2	1.47.2-3+b12	main	GPL-2, GPL-2+, 0BSD, Expat, BSD-3-Clause-Variant, BSD-3-Clause, BSD-4-Clause-CMU, LGPL-2, Apache-2, ISC, GPL, MIT-US-export, Kazlib, Latex2e, GPL-2+ with Texinfo exception
+libcrypt1	1:4.4.38-1	main	LGPL-2.1+, BSD, public-domain (summarised)
+libctf-nobfd0	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+libctf0	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+libcuda1	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+libdb5.3t64	5.3.28+dfsg2-9	main	Sleepycat, BSD-3-clause, Ms-PL, GPL, Artistic, X11, MIT-old, TCL-like, BSD-3-clause-fjord, GPL-3, zlib
+libdbus-1-3	1.16.2-2	main	GPL-2+, AFL-2.1, and Expat, Tcl-BSDish, BSD-3-clause, BSD-3-clause-generic, LGPL-2.1+, g10-permissive, Expat
+libdebconfclient0	0.280	main	BSD-2-Clause, GPL-2+, BSD-2-clause
+libdpkg-perl	1.22.22	main	GPL-2+, public-domain-s-s-d
+libedit2	3.1-20250104-1	main	BSD-3-clause
+libelf1t64	0.192-4	main	GPL-3+, LGPL-3+, GPL-2+, BSD-2-clause, GFDL-NIV-1.3, LGPL-2.1+, GPL-3+ with Bison exception
+libexpat1	2.8.3-1~deb13u1	main	MIT
+libext2fs2t64	1.47.2-3+b12	main	GPL-2, GPL-2+, 0BSD, Expat, BSD-3-Clause-Variant, BSD-3-Clause, BSD-4-Clause-CMU, LGPL-2, Apache-2, ISC, GPL, MIT-US-export, Kazlib, Latex2e, GPL-2+ with Texinfo exception
+libfdisk1	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+libfido2-1	1.15.0-1+b1	main	BSD-2-clause, ISC, public-domain
+libgcc-s1	14.2.0-19	main	GPL-3+ with GCC Runtime Library Exception (summarised)
+libgdbm-compat4t64	1.24-2	main	GPL-3+, GPL-2+, GFDL-NIV-1.3+
+libgdbm6t64	1.24-2	main	GPL-3+, GPL-2+, GFDL-NIV-1.3+
+libgmp10	2:6.3.0+dfsg-3	main	GPL-2+, LGPL-3+, GPL-3+, GPL-3+ with Bison exception
+libgprofng0	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+libgssapi-krb5-2	1.21.3-5+deb13u1	main	MIT (Kerberos), BSD (summarised)
+libhogweed6t64	3.10.1-1	main	LGPL-3+, GPL-2+, LGPL-2+, Expat, GPL-3+ with Autoconf exception, public-domain, GPL-2, GAP
+libidn2-0	2.3.8-2	main	GPL-3+, LGPL-3+, GPL-2+, Expat, Unicode
+libjansson4	2.14-2+b3	main	Expat
+libk5crypto3	1.21.3-5+deb13u1	main	MIT (Kerberos), BSD (summarised)
+libkeyutils1	1.6.3-6	main	GPL-2+, LGPL-2+
+libklibc	2.0.14-1	main	BSD-3-Clause, GPL-2 (summarised)
+libkmod2	34.2-2	main	LGPL-2.1+, GPL-2+
+libkrb5-3	1.21.3-5+deb13u1	main	MIT (Kerberos), BSD (summarised)
+libkrb5support0	1.21.3-5+deb13u1	main	MIT (Kerberos), BSD (summarised)
+liblastlog2-2	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+liblocale-gettext-perl	1.07-7+b1	main	Artistic, GPL-1+
+liblz4-1	1.10.0-4	main	GPL-2+, BSD-2-clause
+liblzma5	5.8.1-1+deb13u1	main	0BSD, GPL-2+, LGPL-2.1+, FSFULLR, GPL-3.0-or-later-WITH-Autoconf-exception-macro, none, PD, permissive-nowarranty, FSFUL, noderivs, PD-debian
+libmd0	1.1.0-2+b1	main	BSD-3-clause, BSD-3-clause-Aaron-D-Gifford, BSD-2-clause, BSD-2-clause-NetBSD, ISC, Beerware, public-domain-md4, public-domain-md5, public-domain-sha1
+libmnl0	1.0.5-3	main	LGPL-2.1, GPL-2+
+libmount1	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+libncursesw6	6.5+20250216-2	main	MIT/X11, X11, BSD-3-clause
+libnettle8t64	3.10.1-1	main	LGPL-3+, GPL-2+, LGPL-2+, Expat, GPL-3+ with Autoconf exception, public-domain, GPL-2, GAP
+libnewt0.52	0.52.25-1	main	LGPL-2, GPL-2+
+libnftables1	1.1.3-1	main	GPL-2, GPL-2+, CC-BY-SA-4.0
+libnftnl11	1.2.9-1	main	GPL-2+, GPL-2
+libnvidia-ml1	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+libnvidia-pkcs11-openssl3	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+libnvidia-ptxjitcompiler1	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+libpam-modules	1.7.0-5	main	BSD-3-clause, GPL, GPL-2, GPL-2+, GPL-3, GPL-3+ with Bison exception, BSD-tcp_wrappers, LGPL-2+, public-domain, Beerware
+libpam-modules-bin	1.7.0-5	main	BSD-3-clause, GPL, GPL-2, GPL-2+, GPL-3, GPL-3+ with Bison exception, BSD-tcp_wrappers, LGPL-2+, public-domain, Beerware
+libpam-runtime	1.7.0-5	main	BSD-3-clause, GPL, GPL-2, GPL-2+, GPL-3, GPL-3+ with Bison exception, BSD-tcp_wrappers, LGPL-2+, public-domain, Beerware
+libpam-systemd	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+libpam0g	1.7.0-5	main	BSD-3-clause, GPL, GPL-2, GPL-2+, GPL-3, GPL-3+ with Bison exception, BSD-tcp_wrappers, LGPL-2+, public-domain, Beerware
+libpci3	1:3.13.0-2	main	GPL-2+
+libpcre2-8-0	10.46-1~deb13u2	main	BSD-3-clause-Cambridge with BINARY LIBRARY-LIKE PACKAGES exception, BSD-3-clause, X11, BSD-2-clause, public-domain
+libperl5.40	5.40.1-6+deb13u1	main	GPL-1+, Artistic, Expat, REGCOMP, and GPL-1+, GPL-3+-WITH-BISON-EXCEPTION, Unicode, and Unicode, BZIP, ZLIB, GPL-2+, FSFAP, BSD-3-clause-with-weird-numbering, CC0-1.0, TEXT-TABS, and BSD-4-clause-POWERDOG, and BSD-3-clause-GENERIC, BSD-3-clause, SDBM-PUBLIC-DOMAIN, DONT-CHANGE-THE-GPL, Artistic-dist, and Expat, LGPL-2.1, Artistic-2, BSD-4-clause-POWERDOG, BSD-3-clause-GENERIC
+libpopt0	1.19+dfsg-2	main	expat, public-domain, GPL-2+
+libproc2-0	2:4.0.4-9	main	LGPL-2.1+, LGPL-2.0+, GPL-2.0+
+libreadline8t64	8.2-6	main	GPL-3+, GPL-2+, GFDL-NIV-1.3+, ISC-no-attribution, GPL-3
+libseccomp2	2.6.0-2	main	LGPL-2.1
+libselinux1	3.8.1-1	main	public-domain, GPL-2
+libsemanage-common	3.8.1-1	main	LGPL-2.1+, GPL-2
+libsemanage2	3.8.1-1	main	LGPL-2.1+, GPL-2
+libsepol2	3.8.1-1	main	LGPL-2.1+, Zlib, GPL-2, GPL-2+
+libsframe1	2.44-3	main	GPL-3+, LGPL-3+ (summarised)
+libslang2	2.3.3-5+b2	main	GPL-2+
+libsmartcols1	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+libsqlite3-0	3.46.1-7+deb13u2	main	public-domain, GPL-2+
+libss2	1.47.2-3+b12	main	GPL-2, GPL-2+, 0BSD, Expat, BSD-3-Clause-Variant, BSD-3-Clause, BSD-4-Clause-CMU, LGPL-2, Apache-2, ISC, GPL, MIT-US-export, Kazlib, Latex2e, GPL-2+ with Texinfo exception
+libssl3t64	3.5.7-1~deb13u2	main	Apache-2.0, Artistic, GPL-1+
+libstdc++6	14.2.0-19	main	GPL-3+ with GCC Runtime Library Exception (summarised)
+libsystemd-shared	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+libsystemd0	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+libtext-charwidth-perl	0.04-11+b4	main	Artistic, GPL-1+
+libtext-iconv-perl	1.7-8+b4	main	Artistic, GPL-1+
+libtext-wrapi18n-perl	0.06-10	main	Artistic, GPL-1+
+libtinfo6	6.5+20250216-2	main	MIT/X11, X11, BSD-3-clause
+libtirpc-common	1.3.6+ds-1	main	BSD-3-Clause, GPL-2, __AUTO_PERMISSIVE__, BSD-2-Clause, BSD-4-Clause, LGPL-2.1+, PERMISSIVE
+libtirpc3t64	1.3.6+ds-1	main	BSD-3-Clause, GPL-2, __AUTO_PERMISSIVE__, BSD-2-Clause, BSD-4-Clause, LGPL-2.1+, PERMISSIVE
+libudev1	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+libunistring5	1.3-2	main	GPL-3+, LGPL-3+, LGPL-2+, GFDL-1.3+, GFDL-1.2+, LGPL-3, LGPL-2.1+, BSD-3-clause, ISC, Unicode-DFS-2016, public-domain, FreeSoftware, GPL-2+, GPL-2+ with distribution exception, Expat, X11, bsd-3-clause, gfdl-1.2+, gfdl-1.3+, unicode-dfs-2016, isc
+libusb-1.0-0	2:1.0.28-1	main	LGPL-2.1+, GPL-2+, MIT, FSFAP
+libuuid1	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+libxtables12	1.8.11-2	main	GPL-2, Artistic, GPL-2+, custom
+libxxhash0	0.8.3-2	main	BSD-2-clause, GPL-2+
+libzstd1	1.5.7+dfsg-1	main	BSD-3-clause, GPL-2, zlib, Expat
+linux-base	4.12.1	main	GPL-2, LGPL-2.1+
+linux-image-6.12.107-cudalite	6.12.107-1cudalite	main	GPL-2.0
+linux-sysctl-defaults	4.12.1	main	GPL-2, LGPL-2.1+
+live-boot	1:20250815~deb13u1	main	GPL-3+
+live-boot-initramfs-tools	1:20250815~deb13u1	main	GPL-3+
+live-config	11.0.5	main	GPL-3+
+live-config-systemd	11.0.5	main	GPL-3+
+login	1:4.16.0-2+really2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+login.defs	1:4.17.4-2	main	BSD-3-clause, GPL-1, GPL-2+
+logsave	1.47.2-3+b12	main	GPL-2, GPL-2+, 0BSD, Expat, BSD-3-Clause-Variant, BSD-3-Clause, BSD-4-Clause-CMU, LGPL-2, Apache-2, ISC, GPL, MIT-US-export, Kazlib, Latex2e, GPL-2+ with Texinfo exception
+make	4.4.1-2	main	GPL-3+
+mawk	1.3.4.20250131-1	main	GPL-2.0-only, X11, CC-BY-3.0
+mount	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+nano	8.4-1+deb13u1	main	GPL-3+, GFDL-NIV+
+ncurses-base	6.5+20250216-2	main	MIT/X11, X11, BSD-3-clause
+ncurses-bin	6.5+20250216-2	main	MIT/X11, X11, BSD-3-clause
+netbase	6.5	main	GPL-2
+nftables	1.1.3-1	main	GPL-2, GPL-2+, CC-BY-SA-4.0
+nvidia-alternative	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+nvidia-installer-cleanup	20240109+1	contrib	GPL-2+
+nvidia-kernel-common	20240109+1	contrib	GPL-2+
+nvidia-kernel-dkms	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+nvidia-kernel-support	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+nvidia-legacy-check	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+nvidia-modprobe	570.133.07-1	contrib	Expat
+nvidia-smi	550.163.01-2	non-free	NVIDIA-graphics-drivers, zlib/libpng, GPL-2.0+, Expat
+nvidia-support	20240109+1	contrib	GPL-2+
+openssh-client	1:10.0p1-7+deb13u4	main	OpenSSH, Mazieres-BSD-style, public-domain, BSD-3-clause, Powell-BSD-style, Expat-with-advertising-restriction, BSD-2-clause
+openssl	3.5.7-1~deb13u2	main	Apache-2.0, Artistic, GPL-1+
+openssl-provider-legacy	3.5.7-1~deb13u2	main	Apache-2.0, Artistic, GPL-1+
+passwd	1:4.17.4-2	main	BSD-3-clause, GPL-1, GPL-2+
+patch	2.8-2	main	GPL-3+
+pci.ids	0.0~2025.06.09-1	main	GPL-2+, BSD-3-clause
+pciutils	1:3.13.0-2	main	GPL-2+
+perl	5.40.1-6+deb13u1	main	GPL-1+, Artistic, Expat, REGCOMP, and GPL-1+, GPL-3+-WITH-BISON-EXCEPTION, Unicode, and Unicode, BZIP, ZLIB, GPL-2+, FSFAP, BSD-3-clause-with-weird-numbering, CC0-1.0, TEXT-TABS, and BSD-4-clause-POWERDOG, and BSD-3-clause-GENERIC, BSD-3-clause, SDBM-PUBLIC-DOMAIN, DONT-CHANGE-THE-GPL, Artistic-dist, and Expat, LGPL-2.1, Artistic-2, BSD-4-clause-POWERDOG, BSD-3-clause-GENERIC
+perl-base	5.40.1-6+deb13u1	main	GPL-1+, Artistic, Expat, REGCOMP, and GPL-1+, GPL-3+-WITH-BISON-EXCEPTION, Unicode, and Unicode, BZIP, ZLIB, GPL-2+, FSFAP, BSD-3-clause-with-weird-numbering, CC0-1.0, TEXT-TABS, and BSD-4-clause-POWERDOG, and BSD-3-clause-GENERIC, BSD-3-clause, SDBM-PUBLIC-DOMAIN, DONT-CHANGE-THE-GPL, Artistic-dist, and Expat, LGPL-2.1, Artistic-2, BSD-4-clause-POWERDOG, BSD-3-clause-GENERIC
+perl-modules-5.40	5.40.1-6+deb13u1	main	GPL-1+, Artistic, Expat, REGCOMP, and GPL-1+, GPL-3+-WITH-BISON-EXCEPTION, Unicode, and Unicode, BZIP, ZLIB, GPL-2+, FSFAP, BSD-3-clause-with-weird-numbering, CC0-1.0, TEXT-TABS, and BSD-4-clause-POWERDOG, and BSD-3-clause-GENERIC, BSD-3-clause, SDBM-PUBLIC-DOMAIN, DONT-CHANGE-THE-GPL, Artistic-dist, and Expat, LGPL-2.1, Artistic-2, BSD-4-clause-POWERDOG, BSD-3-clause-GENERIC
+procps	2:4.0.4-9	main	LGPL-2.1+, LGPL-2.0+, GPL-2.0+
+readline-common	8.2-6	main	GPL-3+, GPL-2+, GFDL-NIV-1.3+, ISC-no-attribution, GPL-3
+sed	4.9-2+deb13u1	main	GPL-3+, X11, GFDL-NIV-1.3+, ISC, BSD-4-clause-UC, BSL-1, pcre
+sensible-utils	0.0.25	main	GPL-2+, All-permissive, configure, installsh
+sqv	1.3.0-3+b2	main	LGPL-2.0-or-later
+sudo	1.9.16p2-3+deb13u2	main	ISC, BSD-2-Clause, BSD-3-Clause, Zlib, other, public-domain, GPL-2+
+systemd	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+systemd-sysv	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+sysvinit-utils	3.14-4	main	GPL-2.0+, LGPL-2.1+, GPL-3.0, GPL-2.0
+tar	1.35+dfsg-3.1	main	GPL-3+, GPL-3+ with Bison exception, LGPL-2.1+, LGPL-3+, GPL-2+
+tzdata	2026f-0+deb13u1	main	public-domain
+udev	257.13-1~deb13u1	main	LGPL-2.1+, CC0-1.0, GPL-2 with Linux-syscall-note exception, Expat, public-domain, GPL-2+
+update-glx	1.2.2	contrib	GPL-2.0+
+usbutils	1:018-2	main	GPL-2.0+, CC0-1.0, GPL-2.0, GPL-3.0, LGPL-2.1+, MIT
+util-linux	2.41.5-0+deb13u1	main	GPL-2+, GPL-2, GPL-3+, LGPL-2.1+, public-domain, BSD-4-clause, Expat, ISC, BSD-3-clause, BSLA, LGPL-2+, LGPL, BSD-2-clause, LGPL-3+
+vim-common	2:9.1.1230-2	main	Vim, OPL-1+, BSD-3-clause, Expat, BSD-2-clause, Apache, GPL-1+, Artistic-1, Vim-Regexp, UC, public-domain, GPL-2, X11, Compaq, GPL-2+, XPM, LGPL-2.1+, EDL-1, GPL-3+, Unlicense
+vim-tiny	2:9.1.1230-2	main	Vim, OPL-1+, BSD-3-clause, Expat, BSD-2-clause, Apache, GPL-1+, Artistic-1, Vim-Regexp, UC, public-domain, GPL-2, X11, Compaq, GPL-2+, XPM, LGPL-2.1+, EDL-1, GPL-3+, Unlicense
+whiptail	0.52.25-1	main	LGPL-2, GPL-2+
+xz-utils	5.8.1-1+deb13u1	main	0BSD, GPL-2+, LGPL-2.1+, FSFULLR, GPL-3.0-or-later-WITH-Autoconf-exception-macro, none, PD, permissive-nowarranty, FSFUL, noderivs, PD-debian
+zlib1g	1:1.3.dfsg+really1.3.1-1+b1	main	Zlib

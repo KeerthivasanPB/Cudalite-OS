@@ -62,7 +62,8 @@ cudalite-report --full                          # collect every validation outpu
 
 ## Proprietary components
 NVIDIA driver (550.163.01, NVIDIA licence), NVIDIA GSP firmware, and the CUDA runtime statically linked into
-the benchmark (NVIDIA EULA). Justified in `docs/report-notes.md`; everything else is open source.
+the benchmark (NVIDIA EULA), and AMD GPU firmware for the display. Full list and justification: `docs/licences.md`
+(per-package licences: `docs/licences.tsv`, regenerate with `scripts/licence_inventory.py`); everything else is open source.
 
 ## Known limitations
 * Boots only with Secure Boot disabled.
