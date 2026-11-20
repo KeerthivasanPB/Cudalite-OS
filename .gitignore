@@ -27,6 +27,8 @@ __pycache__/
 
 # demo material: kept local, never pushed
 docs/demo-script.md
+docs/demo-script.pdf
+docs/demo-photos/
 *.mp4
 *.mkv
 *.webm
