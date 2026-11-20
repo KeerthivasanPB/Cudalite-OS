@@ -24,6 +24,17 @@ Development host: Ubuntu 26.04.1 LTS (also the stock-Linux baseline).
 | `scripts/patch_live_build.sh` | One-line host fix for Ubuntu's old live-build |
 | `docs/` | `kernel.config` (Debian's, for comparison), kernel notes, `package-manifest.tsv`, `versions.txt`, `report-notes.md`, `results/` |
 
+## Deliverables
+| Deliverable | Where |
+|---|---|
+| Bootable image | `cudalite-os-rtx4060.iso` on the GitHub Release v1.0 (SHA-256 in `docs/image.sha256`) |
+| Reproducible build recipe | `scripts/build_kernel.sh`, then `scripts/build_iso.sh --clean` (see below) |
+| Kernel `.config` | `kernel/config-cudalite` (ours), `docs/kernel.config` (Debian's, for comparison), `docs/kernel-documentation.md` |
+| Device tree files | Not applicable: this is an x86-64 PC, where the firmware describes the hardware through ACPI and UEFI. Device trees are used on ARM/RISC-V boards, so there are no `.dts`/`.dtb` files. |
+| Package manifest | `docs/package-manifest.tsv`, `docs/versions.txt` |
+| Licence list | `docs/licences.md` (summary and proprietary justification), `docs/licences.tsv` (all 212 packages) |
+| Report with benchmarks | `docs/CudaLite-OS-Report.pdf`, raw data in `docs/results/` |
+
 ## Build prerequisites (Ubuntu host)
 ```bash
 sudo apt install live-build debootstrap squashfs-tools xorriso mtools grub-pc-bin grub-efi-amd64-bin \
